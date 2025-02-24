@@ -10,8 +10,9 @@
     "build": "tsc -p tsconfig.prod.json",
     "lint": "eslint $PWD/'src/**/*.js'",
     "lint:fix": "prettier-eslint $PWD/'src/**/*.js' --write",
-    "test": "nyc --require ts-node/register mocha src/**/*.spec.ts --reporter spec",
+    "test": "nyc --require ts-node/register mocha '**/test/**/*.spec.ts' --reporter spec",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "release": "standard-version",
     "release:major": "standard-version --release-as major",
     "release:minor": "standard-version --release-as minor",
@@ -87,23 +88,10 @@
     "node": ">=4"
   },
   "nyc": {
-    "include": [
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "node_modules/"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "reporter": [
-      "text-summary",
-      "html"
-    ],
-    "sourceMap": true,
-    "instrument": true
+    "reporter": ["lcov", "text"],
+    "extension": [".ts"],
+    "require": ["ts-node/register"],
+    "include": ["src/**/*.ts"],
+    "exclude": ["**/test/**", "node_modules/**"]
   }
 }
