@@ -1,7 +1,15 @@
-# CommonJS
+# CommonJS Utilities
 
 > Node.js Common libraries, functions, and helpers
 
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
+[![npm version](https://img.shields.io/npm/v/@ialopezg/commonjs)](https://www.npmjs.com/package/@ialopezg/commonjs)
 [![Coverage Status](https://coveralls.io/repos/github/ialopezg/CommonJS/badge.svg?branch=main)](https://coveralls.io/github/ialopezg/CommonJS?branch=main)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
+![license](https://img.shields.io/npm/l/@ialopezg/commonjs)
+[![Bundle Size](https://img.shields.io/bundlephobia/min/@ialopezg/commonjs)](https://bundlephobia.com/result?p=my-awesome-lib)
 
+## Number Functions
+
+| HELPER | DESCRIPTION                                           | FUNCTIONS                         |
+|--------|-------------------------------------------------------|-----------------------------------|
+| String | Extends native string type with extra functionalities | capitalize, camelize, padWithChar |

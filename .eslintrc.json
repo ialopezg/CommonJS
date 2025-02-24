@@ -31,6 +31,7 @@
     "comma-dangle": "off",
     "no-useless-constructor": "off",
     "no-unused-vars": "off",
+    "no-extend-native": "off",
     "semi": "off",
     "space-before-function-paren": "off"
   }
