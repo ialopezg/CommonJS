@@ -1,10 +1,6 @@
 export const camelize = (value: string) => {
   return value.replace(/^([A-Z])|[\s-_](\w)/g, (_, p, p2, __) => {
-    if (p2) {
-      return p2.toUpperCase();
-    }
-
-    return p.toLowerCase();
+    return p2 ? p2.toUpperCase() : p.toLowerCase();
   });
 };
 
@@ -34,10 +30,9 @@ export const capitalize = (value: string): string => {
 export const pad = (
   value: unknown,
   threshold?: number,
-  direction?: 'LEFT' | 'RIGHT',
-  pad?: string,
+  direction: 'LEFT' | 'RIGHT' = 'LEFT',
+  pad: string = '0',
 ): string => {
-  pad = pad ? pad : '0';
   const str = String(value);
   const length = str.length;
 
@@ -45,7 +40,6 @@ export const pad = (
     return str;
   }
 
-  direction = direction ? direction : 'LEFT';
   if (direction === 'LEFT') {
     return Array(threshold - length + 1).join(pad) + str;
   }
@@ -53,9 +47,14 @@ export const pad = (
   return str + Array(threshold - length + 1).join(pad);
 };
 
-export const zeroise = (value: unknown, threshold: number, direction?: 'LEFT' | 'RIGHT') =>
-  pad(value, threshold, direction);
+export const zeroise = (
+  value: unknown,
+  threshold: number,
+  direction?: 'LEFT' | 'RIGHT',
+) => pad(value, threshold, direction);
 
-export const padLeft = (value: unknown, threshold: number) => pad(value, threshold, 'LEFT');
+export const padLeft = (value: unknown, threshold: number) =>
+  pad(value, threshold, 'LEFT');
 
-export const padRight = (value: unknown, threshold: number) => pad(value, threshold, 'RIGHT');
+export const padRight = (value: unknown, threshold: number) =>
+  pad(value, threshold, 'RIGHT');

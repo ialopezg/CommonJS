@@ -20,9 +20,10 @@ export const isEqual = <T, U extends T>(a: T, b: U): boolean => {
     return JSON.stringify(a) === JSON.stringify(b);
   }
 
-  if ((isString(a) && isString(b)) ||
-      (isNumber(a) && isNumber(b))  ||
-      (isBoolean(a) && isBoolean(b))
+  if (
+    (isString(a) && isString(b)) ||
+    (isNumber(a) && isNumber(b)) ||
+    (isBoolean(a) && isBoolean(b))
   ) {
     return String(a) === String(b);
   }

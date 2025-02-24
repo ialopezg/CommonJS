@@ -4,8 +4,7 @@
     "commonjs": true,
     "es2021": true,
     "node": true,
-    "mocha": true,
-    "chai": true
+    "mocha": true
   },
   "extends": [
     "standard"
@@ -16,6 +15,9 @@
   },
   "plugins": [
     "@typescript-eslint"
+  ],
+  "ignorePatterns": [
+    "**/test/**/*.spec.ts"
   ],
   "rules": {
     "@typescript-eslint/semi": [
