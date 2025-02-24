@@ -16,19 +16,12 @@
     "release:major": "standard-version --release-as major",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
-    "prepare": "husky install",
-    "prepublishOnly": "npm run build"
+    "prepare": "husky install"
   },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  },
-  "lint-staged": {
-    "*.js": [
-      "npm run lint:fix",
-      "git add"
-    ]
   },
   "repository": {
     "type": "git",

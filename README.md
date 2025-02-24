@@ -1,4 +1,4 @@
-# CommonJS Utilities
+# @ialopezg/CommonJS
 
 > Node.js Common libraries, functions, and helpers
 
@@ -8,8 +8,20 @@
 ![license](https://img.shields.io/npm/l/@ialopezg/commonjs)
 [![Bundle Size](https://img.shields.io/bundlephobia/min/@ialopezg/commonjs)](https://bundlephobia.com/result?p=my-awesome-lib)
 
-## Number Functions
+## Installation
+
+```bash
+npm install @ialopezg/commonjs
+```
+
+## Extensions
 
 | HELPER | DESCRIPTION                                           | FUNCTIONS                         |
 |--------|-------------------------------------------------------|-----------------------------------|
+| Number | Extends native number type with extra functionalities | getOrdinal, padWithChar           |
 | String | Extends native string type with extra functionalities | capitalize, camelize, padWithChar |
+
+
+## License
+
+@ialopezg/CommonJS is [MIT licensed](LICENSE).
