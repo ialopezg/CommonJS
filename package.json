@@ -7,7 +7,7 @@
   "private": false,
   "scripts": {
     "prebuild": "rimraf lib",
-    "build": "tsc -p tsconfig.prod.json",
+    "build": "echo Using TypeScript && tsc -p tsconfig.prod.json",
     "lint": "eslint $PWD/'src/**/*.[t,j]s'",
     "lint:fix": "prettier-eslint $PWD/'src/**/*.js' --write",
     "test": "nyc --require ts-node/register mocha '**/test/**/*.spec.ts' --reporter spec",
@@ -53,8 +53,8 @@
     "chai": "^4.3.7",
     "coveralls": "^3.1.1",
     "eslint": "^8.34.0",
-    "eslint-config-standard": "^17.1.0",
     "eslint-config-love": "^70.0.0",
+    "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-n": "^15.6.1",
     "eslint-plugin-promise": "^6.1.1",
