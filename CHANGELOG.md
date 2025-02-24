@@ -1,3 +1,25 @@
+# Changelog
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [1.2.5](https://github.com/ialopezg/CommonJS/compare/v1.2.4...v1.2.5) (2025-02-24)
+
+
+### Features
+
+* add number extension ([ecac682](https://github.com/ialopezg/CommonJS/commits/ecac682c0299e87cb04d26ecfceeeec750cac79a))
+* improve string helper ([18f7adf](https://github.com/ialopezg/CommonJS/commits/18f7adf846fade2b8ebccaaf0f16a6ed81e2265d))
+
+
+### Bug Fixes
+
+* files to bundle ([82f641d](https://github.com/ialopezg/CommonJS/commits/82f641d98be0c04544bbb212cd6fcd4da60b9a63))
+
+
+### Refactor
+
+* clean code ([f04393f](https://github.com/ialopezg/CommonJS/commits/f04393f2c92275349a350d719cf105e2c60af335))
+
 ### Changelog
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
