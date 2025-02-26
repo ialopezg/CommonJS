@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.7](https://github.com/ialopezg/CommonJS/compare/v1.2.6...v1.2.7) (2025-02-26)
+
+
+### Documentation
+
+* add mask utilities ([e111577](https://github.com/ialopezg/CommonJS/commits/e111577e12adb187d7d3396ee9290cdf86dcda22))
+* update docs file structure ([9cae765](https://github.com/ialopezg/CommonJS/commits/9cae765fff3167b1ff5596345e6d78147f274881))
+
 ### [1.2.6](https://github.com/ialopezg/CommonJS/compare/v1.2.5...v1.2.6) (2025-02-24)
 
 ### [1.2.5](https://github.com/ialopezg/CommonJS/compare/v1.2.4...v1.2.5) (2025-02-24)

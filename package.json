@@ -1,6 +1,6 @@
 {
   "name": "@ialopezg/commonjs",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "JavaScript Library Starter Kit for modern apps and libraries.",
   "main": "lib/index.js",
   "module": "lib/index.js",
