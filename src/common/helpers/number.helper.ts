@@ -1,4 +1,4 @@
-import { padWithChar } from './string.helper';
+import './string.helper';
 
 declare global {
   interface Number {

@@ -1,14 +1,12 @@
 import { expect } from 'chai';
 
+import { camelize, capitalize } from '../../helpers';
 import {
-  camelize,
-  capitalize,
   pad,
   padLeft,
   padRight,
-  padWithChar,
   zeroise,
-} from '../../helpers'; // Adjust the import based on your actual file structure
+} from '../../helpers/string/pad.helper'; // Adjust the import based on your actual file structure
 
 describe('string', () => {
   it('should camelize a string value', () => {
