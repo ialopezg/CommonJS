@@ -120,7 +120,7 @@ String.mask = mask;
 String.prototype.padWithChar = function (
   padChar: string,
   length: number = 2,
-  position: 'left' | 'right' = 'right',
+  position: 'left' | 'right' = 'left',
 ): string {
   return padWithChar(this, padChar, length, position);
 };
