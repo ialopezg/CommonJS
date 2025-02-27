@@ -3,6 +3,25 @@ import './number.helper';
 declare global {
   interface Date {
     /**
+     * Formats this date according to the provided format string.
+     * Supported tokens:
+     *  - YYYY: full year
+     *  - MM: month (01-12)
+     *  - DD: day of the month (01-31)
+     *  - HH: hour (00-23)
+     *  - mm: minute (00-59)
+     *  - ss: second (00-59)
+     *
+     * @param {string} format - The format string.
+     * @returns {string} The formatted date string.
+     *
+     * @example
+     * const date = new Date('2025-02-19T09:30:00');
+     * console.log(date.format('YYYY-MM-DD HH:mm:ss')); // "2025-02-19 09:30:00"
+     */
+    format(format: string): string;
+
+    /**
      * Returns a human-readable time difference (without "ago" or "in") for this date instance,
      * compared to the current time.
      *
@@ -38,40 +57,22 @@ declare global {
      * console.log(now.timeDiff(future)); // -60000
      */
     timeDiff(to?: Date | number): number;
+  }
 
+  interface DateConstructor {
     /**
-     * Returns a human-readable relative time string for this date compared to now.
-     * For example, "1 minute ago" or "in 2 hours".
+     * Formats a given date (or timestamp) according to the specified format string.
      *
-     * @param {Date | number} [from] - The starting date or timestamp. Defaults to now.
-     * @returns {string} A relative time string.
-     *
-     * @example
-     * console.log(new Date(Date.now() - 60000).timeAgo()); // "1 minute ago"
-     */
-    timeAgo(from?: Date | number): string;
-
-    /**
-     * Formats this date according to the provided format string.
-     * Supported tokens:
-     *  - YYYY: full year
-     *  - MM: month (01-12)
-     *  - DD: day of the month (01-31)
-     *  - HH: hour (00-23)
-     *  - mm: minute (00-59)
-     *  - ss: second (00-59)
-     *
+     * @param {Date | number} date - The date or timestamp to format.
      * @param {string} format - The format string.
      * @returns {string} The formatted date string.
      *
      * @example
-     * const date = new Date('2025-02-19T09:30:00');
-     * console.log(date.format('YYYY-MM-DD HH:mm:ss')); // "2025-02-19 09:30:00"
+     * console.log(Date.format(new Date('2025-02-19T09:30:00'), 'YYYY-MM-DD HH:mm:ss'));
+     * // "2025-02-19 09:30:00"
      */
-    format(format: string): string;
-  }
+    format(date: Date | number, format: string): string;
 
-  interface DateConstructor {
     /**
      * Returns a human-readable time difference (without "ago" or "in") for the given date or timestamp,
      * compared to the current time. If no argument is provided, the current time is used.
@@ -114,30 +115,6 @@ declare global {
      * console.log(Date.timeDiff(new Date(), new Date(Date.now() + 60000))); // 60000
      */
     timeDiff(from: Date | number, to?: Date | number): number;
-
-    /**
-     * Returns a human-readable relative time string for the given date or timestamp compared to now.
-     *
-     * @param {Date | number} [from] - The starting date or timestamp. Defaults to now.
-     * @returns {string} A relative time string (e.g., "1 minute ago", "in 2 hours").
-     *
-     * @example
-     * console.log(Date.timeAgo(new Date(Date.now() - 60000))); // "1 minute ago"
-     */
-    timeAgo(from?: Date | number): string;
-
-    /**
-     * Formats a given date (or timestamp) according to the specified format string.
-     *
-     * @param {Date | number} date - The date or timestamp to format.
-     * @param {string} format - The format string.
-     * @returns {string} The formatted date string.
-     *
-     * @example
-     * console.log(Date.format(new Date('2025-02-19T09:30:00'), 'YYYY-MM-DD HH:mm:ss'));
-     * // "2025-02-19 09:30:00"
-     */
-    format(date: Date | number, format: string): string;
   }
 }
 
@@ -308,52 +285,6 @@ const computeFormat = function (
 /**
  * Computes the time difference in milliseconds between two dates or timestamps.
  */
-const computeTimeAgo = function (
-  this: Date | typeof Date,
-  from?: Date | number,
-): string {
-  const base = this instanceof Date ? this : new Date(from ?? new Date());
-  const difference = computeTimeDiff(base as Date);
-  const seconds = Math.abs(difference) / 1000;
-  const minutes = seconds / 60;
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-  const years = Math.floor(days / 365);
-  const options = {
-    future: 'in %d',
-    past: '%d ago',
-    ss: 'less than a minute',
-    m: 'about a minute',
-    mm: '%d minutes',
-    h: 'about an hour',
-    hh: 'about %d hours',
-    d: 'a day',
-    dd: '%d days',
-    n: 'about a month',
-    nn: '%d months',
-    y: 'about a year',
-    yy: '%d years',
-  };
-  const pattern = /%d/i;
-
-  return (
-    (seconds < 45 && options.ss.replace(pattern, String(seconds))) ||
-    (seconds < 90 && options.m) ||
-    (minutes < 45 && options.mm.replace(pattern, String(minutes))) ||
-    (minutes < 90 && options.h) ||
-    (hours < 24 && options.hh.replace(pattern, String(hours))) ||
-    (hours < 48 && options.d) ||
-    (days < 30 && options.dd.replace(pattern, String(days))) ||
-    (days < 60 && options.n) ||
-    (days < 350 && options.nn.replace(pattern, String(days))) ||
-    (years < 2 && options.y) ||
-    options.yy.replace(pattern, String(years))
-  );
-};
-
-/**
- * Computes the time difference in milliseconds between two dates or timestamps.
- */
 const computeTimeDiff = (
   from: Date | number,
   to: Date | number = new Date(),
@@ -458,7 +389,6 @@ Date.relativeTime = function (from?: Date | number): string {
   const target = from instanceof Date ? from : new Date(from ?? Date.now());
   return computeRelativeTime(target);
 };
-Date.timeAgo = computeTimeAgo;
 Date.timeDiff = computeTimeDiff;
 
 // Assign the shared functions to Date.prototype (instance methods)
@@ -471,7 +401,6 @@ Date.prototype.relativeTime = function (): string {
 Date.prototype.timeDiff = function (this: Date, to?: Date | number): number {
   return computeTimeDiff(this, to);
 };
-Date.prototype.timeAgo = computeTimeAgo;
 Date.prototype.format = function (this: Date, format: string): string {
   return computeFormat.call(this, format);
 };
