@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/ialopezg/CommonJS/compare/v1.2.7...v1.3.0) (2025-02-27)
+
+
+### Features
+
+* add Date utilities ([c82d2f2](https://github.com/ialopezg/CommonJS/commits/c82d2f2253377eab68d1ba827281c293e17f3a87))
+
 ### [1.2.7](https://github.com/ialopezg/CommonJS/compare/v1.2.6...v1.2.7) (2025-02-26)
 
 
