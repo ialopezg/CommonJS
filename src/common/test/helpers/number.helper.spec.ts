@@ -45,7 +45,7 @@ describe('Number', () => {
 
     it('should pad the string on the left with the default position if not specified (instance method)', () => {
       const result = (42).padWithChar('*', 5);
-      expect(result).to.equal('42***'); // Default padding is on the right
+      expect(result).to.equal('***42'); // Default padding is on the right
     });
 
     it('should not change the string if the length is equal to the original length (instance method)', () => {
