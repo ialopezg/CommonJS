@@ -188,7 +188,7 @@ const computeFormat = function (
     'November',
     'December',
   ];
-  const replacements = {
+  const options = {
     /* ===== DAY OF MONTH ===== */
     j: () => date.getDate(),
     d: () => date.getDate().padWithChar(),
@@ -200,39 +200,31 @@ const computeFormat = function (
     N: () => date.getDay() || 7,
     /* ===== DAY OF YEAR ===== */
     z: () => {
-      const a = new Date(
-        replacements.Y(),
-        replacements.n() - 1,
-        replacements.j(),
-      ).getTime();
-      const b = new Date(replacements.Y(), 0, 1).getTime();
+      const a = new Date(options.Y(), options.n() - 1, options.j()).getTime();
+      const b = new Date(options.Y(), 0, 1).getTime();
 
       return ((a - b) / 846e5 + 0.5) | 0;
     },
     /* ===== WEEK ===== */
     W: () => {
-      const a = new Date(
-        replacements.Y(),
-        replacements.n() - 1,
-        replacements.j(),
-      ).getTime();
-      const b = new Date(replacements.Y(), 0, 4).getTime();
+      const a = new Date(options.Y(), options.n() - 1, options.j()).getTime();
+      const b = new Date(options.Y(), 0, 4).getTime();
 
       return (((a - b) / 846e5 / 7 + 1.5) | 0).padWithChar();
     },
     /* ===== MONTH ===== */
     n: () => date.getMonth() + 1,
-    m: () => replacements.n().padWithChar(),
-    F: () => months[replacements.n() - 1],
-    M: () => replacements.F().slice(0, 3),
-    t: () => new Date(replacements.Y(), replacements.n(), 0).getDate(),
+    m: () => options.n().padWithChar(),
+    F: () => months[options.n() - 1],
+    M: () => options.F().slice(0, 3),
+    t: () => new Date(options.Y(), options.n(), 0).getDate(),
     /* ===== YEAR ===== */
-    L: () => new Date(replacements.Y(), 1, 29).getMonth() === 1 || false,
+    L: () => new Date(options.Y(), 1, 29).getMonth() === 1 || false,
     Y: () => date.getFullYear(),
-    y: () => String(replacements.Y()).slice(-2),
+    y: () => String(options.Y()).slice(-2),
     /* ===== TIME ===== */
-    a: () => (replacements.G() > 11 ? 'pm' : 'am'),
-    A: () => replacements.a().toUpperCase(),
+    a: () => (options.G() > 11 ? 'pm' : 'am'),
+    A: () => options.a().toUpperCase(),
     B: () => {
       const hours = date.getUTCHours() * 3600;
       const minutes = date.getUTCMinutes() * 60;
@@ -243,17 +235,17 @@ const computeFormat = function (
       ).padWithChar('0', 3);
     },
     /* ===== HOURS ===== */
-    g: () => replacements.G() % 12 || 12,
-    h: () => replacements.g().padWithChar(),
+    g: () => options.G() % 12 || 12,
+    h: () => options.g().padWithChar(),
     G: () => date.getHours(),
-    H: () => replacements.G().padWithChar(),
+    H: () => options.G().padWithChar(),
     /* ===== MINUTES SECONDS MILLISECONDS ===== */
     i: () => date.getMinutes().padWithChar(),
     s: () => date.getSeconds().padWithChar(),
     U: () => (date.getTime() / 1000) | 0,
     /* ===== TIMEZONE ===== */
     I: () => {
-      const year = replacements.Y();
+      const year = options.Y();
       const offset = Math.max(
         new Date(year, 0, 1).getTimezoneOffset(),
         new Date(year, 0, 6).getTimezoneOffset(),
@@ -270,7 +262,7 @@ const computeFormat = function (
       );
     },
     P: () => {
-      const offset = replacements.O();
+      const offset = options.O();
 
       return offset.slice(0, 3) + ':' + offset.slice(-2);
     },
@@ -278,7 +270,7 @@ const computeFormat = function (
   };
 
   return format.replace(/[ABDFGHILMNOPSUWYZadghijlmnstwyz]/g, (token) =>
-    replacements[token](),
+    options[token](),
   );
 };
 

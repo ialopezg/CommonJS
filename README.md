@@ -34,10 +34,11 @@ console.log((42).padWithChar('0', 4, 'left')); // will produce 0042
 The library is organized into several helper modules. Click on the links below for detailed usage
 and examples:
 
-| Helper                           | Description                                           | Available Functions               | Extension |
-|----------------------------------|-------------------------------------------------------|-----------------------------------|:---------:|
-| [Number](docs/helpers/number.md) | Extends native number type with extra functionalities | getOrdinal, padWithChar           |  &check;  |
-| [String](docs/helpers/string.md) | Extends native string type with extra functionalities | capitalize, camelize, padWithChar |  &check;  |
+| Helper                           | Description                                                                                                                               | Extension |
+|----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|:---------:|
+| [Date](docs/helpers/date.md)     | Extends native Date and DateConstructor type with extra functionalities such as: `format`, `humanizeTimeDiff`, `relativeTime`, `timeDiff` |  &check;  |
+| [Number](docs/helpers/number.md) | Extends native Number and NumberConstructor type with extra functionalities such as: `getOrdinal`, `padWithChar`                          |  &check;  |
+| [String](docs/helpers/string.md) | Extends native string type with extra functionalities such as: `padWitchChar`                                                             |  &check;  |
 
 ## Contributing
 

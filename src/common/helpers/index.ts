@@ -1,4 +1,6 @@
+export * from './date.helper';
 export * from './get-value-for.helper';
+export * from './number.helper';
 export * from './is-array.helper';
 export * from './is-boolean.helper';
 export * from './is-constructor.helper';
