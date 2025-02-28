@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/ialopezg/CommonJS/compare/v1.3.0...v1.3.1) (2025-02-28)
+
+
+### Bug Fixes
+
+* clean code ([61258fe](https://github.com/ialopezg/CommonJS/commits/61258fe9e63488761daa1a6d5eba0d64f5ae50b8))
+* number test when padding to left ([01c36d3](https://github.com/ialopezg/CommonJS/commits/01c36d35a25392af89d5b1da50a88b72557b4a2b))
+
+
+### Documentation
+
+* update date and main documentation ([74c0b8a](https://github.com/ialopezg/CommonJS/commits/74c0b8a4c38663fa6629ac7f8280c0ab7d4eb4ca))
+* update mask documentation ([4750e50](https://github.com/ialopezg/CommonJS/commits/4750e50574e54d09b9b15f5f341871f997786d5a))
+
 ## [1.3.0](https://github.com/ialopezg/CommonJS/compare/v1.2.7...v1.3.0) (2025-02-27)
 
 
