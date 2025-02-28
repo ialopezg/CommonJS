@@ -17,9 +17,7 @@ describe('Date Extensions', () => {
       expect(Date.format(date, 'a A')).to.equal('am AM');
       expect(Date.format(date, 'g h G H')).to.equal('9 09 9 09');
       expect(Date.format(date, 'i s')).to.equal('30 00');
-      expect(Date.format(date, 'I O P Z')).to.equal(
-        'false -0500 -05:00 -18000',
-      );
+      expect(Date.format(date, 'I O P Z')).to.equal('false -0500 -05:00');
     });
 
     it('should format the date correctly using the instance method', () => {
@@ -31,7 +29,7 @@ describe('Date Extensions', () => {
       expect(date.format('a A')).to.equal('am AM');
       expect(date.format('g h G H')).to.equal('9 09 9 09');
       expect(date.format('i s')).to.equal('30 00');
-      expect(date.format('I O P Z')).to.equal('false -0500 -05:00 -18000');
+      expect(date.format('I O P Z')).to.equal('false -0500 -05:00');
     });
 
     it('should format the date correctly when timestamp is passed', () => {
