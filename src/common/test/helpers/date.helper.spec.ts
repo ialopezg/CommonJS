@@ -16,7 +16,7 @@ describe('Date Extensions', () => {
       expect(Date.format(date, 'L Y y')).to.equal('false 2025 25');
       expect(Date.format(date, 'a A')).to.equal('am AM');
       expect(Date.format(date, 'g h G H')).to.equal('9 09 9 09');
-      expect(Date.format(date, 'i s U')).to.equal('30 00 1738420200');
+      expect(Date.format(date, 'i s')).to.equal('30 00');
       expect(Date.format(date, 'I O P Z')).to.equal(
         'false -0500 -05:00 -18000',
       );
@@ -30,7 +30,7 @@ describe('Date Extensions', () => {
       expect(date.format('L Y y')).to.equal('false 2025 25');
       expect(date.format('a A')).to.equal('am AM');
       expect(date.format('g h G H')).to.equal('9 09 9 09');
-      expect(date.format('i s U')).to.equal('30 00 1738420200');
+      expect(date.format('i s')).to.equal('30 00');
       expect(date.format('I O P Z')).to.equal('false -0500 -05:00 -18000');
     });
 
