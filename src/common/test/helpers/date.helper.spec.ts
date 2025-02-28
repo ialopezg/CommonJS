@@ -1,38 +1,53 @@
 // tests/dateExtensions.test.ts
 import { expect } from 'chai';
+import * as sinon from 'sinon';
 
 import '../../helpers/date.helper';
 import '../../helpers/number.helper';
 
 describe('Date Extensions', () => {
   describe('format', () => {
-    const date = new Date('2025-02-01T09:30:00');
+    let clock: sinon.SinonFakeTimers;
+
+    before(() => {
+      clock = sinon.useFakeTimers(new Date('2025-02-01T09:30:00Z').getTime());
+    });
+
+    after(() => {
+      clock.restore();
+    });
 
     it('should format the date correctly using the static method', () => {
+      const date = new Date('2025-02-01T09:30:00Z');
+
       expect(Date.format(date, 'j d S')).to.equal('1 01 1st');
       expect(Date.format(date, 'l D w N')).to.equal('Saturday Sat 6 6');
       expect(Date.format(date, 'z W')).to.equal('32 05');
       expect(Date.format(date, 'n m F M t')).to.equal('2 02 February Feb 28');
       expect(Date.format(date, 'L Y y')).to.equal('false 2025 25');
       expect(Date.format(date, 'a A')).to.equal('am AM');
-      expect(Date.format(date, 'g h G H')).to.equal('9 09 9 09');
-      expect(Date.format(date, 'i s')).to.equal('30 00');
-      expect(Date.format(date, 'I O P Z')).to.equal('false -0500 -05:00');
+      expect(Date.format(date, 'g h G H')).to.equal('4 04 4 04');
+      expect(Date.format(date, 'i s U')).to.equal('30 00 1738402200');
+      expect(Date.format(date, 'I O P Z')).to.equal('false -0500 -05:00 -18000');
     });
 
     it('should format the date correctly using the instance method', () => {
+      const date = new Date('2025-02-01T09:30:00Z');
+
       expect(date.format('j d S')).to.equal('1 01 1st');
       expect(date.format('l D w N')).to.equal('Saturday Sat 6 6');
       expect(date.format('z W')).to.equal('32 05');
       expect(date.format('n m F M t')).to.equal('2 02 February Feb 28');
       expect(date.format('L Y y')).to.equal('false 2025 25');
       expect(date.format('a A')).to.equal('am AM');
-      expect(date.format('g h G H')).to.equal('9 09 9 09');
-      expect(date.format('i s')).to.equal('30 00');
-      expect(date.format('I O P Z')).to.equal('false -0500 -05:00');
+      expect(date.format('g h G H')).to.equal('4 04 4 04');
+      expect(date.format('i s U')).to.equal('30 00 1738402200');
+      expect(date.format('I O P Z')).to.equal('false -0500 -05:00 -18000');
     });
 
     it('should format the date correctly when timestamp is passed', () => {
+      const date = new Date('2025-02-01T09:30:00Z');
+
       expect(Date.format(date.getTime(), 'j d S')).to.equal('1 01 1st');
     });
   });
