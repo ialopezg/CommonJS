@@ -227,7 +227,6 @@ const computeFormat = function (
     /* ===== WEEKDAY ===== */
     d: () => currentDay,
     do: () => currentDay.getOrdinal(),
-    dd: () => currentDay.padWithChar('0', 2),
     ddd: () => weekdays[currentDay].slice(0, 3),
     dddd: () => weekdays[currentDay],
 

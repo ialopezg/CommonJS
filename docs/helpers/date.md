@@ -110,7 +110,7 @@ console.log(humanize(new Date('2025-02-19T09:30:00'), 'Y/m/d')); // "2025/02/19"
       <td>Get the day of year with leading zero</td>
     </tr>
     <tr>
-      <th rowspan="5">Weekday</th>
+      <th rowspan="4">Weekday</th>
       <td>d</td>
       <td>0, 1, ..., 5, 6</td>
       <td>Get the weekday</td>
@@ -119,11 +119,6 @@ console.log(humanize(new Date('2025-02-19T09:30:00'), 'Y/m/d')); // "2025/02/19"
       <td>do</td>
       <td>0th, 1st, ..., 5th, 6th</td>
       <td>Get the weekday with its ordinal representation</td>
-    </tr>
-    <tr>
-      <td>dd</td>
-      <td>00, 01, ..., 05, 06</td>
-      <td>Get the weekday with leading zero</td>
     </tr>
     <tr>
       <td>ddd</td>

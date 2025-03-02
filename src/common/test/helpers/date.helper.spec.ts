@@ -35,7 +35,7 @@ describe('Date Extensions', () => {
       );
       expect(Date.humanize(date, 'YYYY YY')).to.equal('2025 25');
       expect(Date.humanize(date, 'D Do DD')).to.equal('1 1st 01');
-      expect(Date.humanize(date, 'd do dd ddd dddd')).to.equal('6 6th 06 Sat Saturday');
+      expect(Date.humanize(date, 'd do ddd dddd')).to.equal('6 6th Sat Saturday');
       expect(Date.humanize(date, 'DDD DDDo DDDD')).to.equal('32 32nd 032');
       expect(Date.humanize(date, 'w wo ww')).to.equal('5 5th 05');
       expect(Date.humanize(date, 'H HH')).to.equal('15 15');
@@ -56,7 +56,7 @@ describe('Date Extensions', () => {
       );
       expect(date.humanize('YYYY YY')).to.equal('2025 25');
       expect(date.humanize('D Do DD')).to.equal('1 1st 01');
-      expect(date.humanize('d do dd ddd dddd')).to.equal('6 6th 06 Sat Saturday');
+      expect(date.humanize('d do ddd dddd')).to.equal('6 6th Sat Saturday');
       expect(date.humanize('DDD DDDo DDDD')).to.equal('32 32nd 032');
       expect(date.humanize('w wo ww')).to.equal('5 5th 05');
       expect(date.humanize('H HH')).to.equal('15 15');
