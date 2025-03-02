@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Set timezone to match local
-        run: sudo timedatectl set-timezone America/New_York # Change to your local
+        run: sudo timedatectl set-timezone America/New_York
 
       - name: Checkout repository
         uses: actions/checkout@v4
