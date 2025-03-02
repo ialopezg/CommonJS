@@ -7,7 +7,7 @@ representations.
 ## Installation
 
 ```sh
-npm install your-library-name
+npm install @ialopezg/commonjs
 ```
 
 ## Usage
@@ -19,15 +19,24 @@ Formats dates according to the provided format string.
 #### Instance Method
 
 ```ts
+import '@ialopezg/common';
+
 const date = new Date('2025-02-19T09:30:00');
-console.log(date.format('Y-M-D H:m:s')); // "2025-02-19 09:30:00"
+console.log(date.humanize('Y-M-D H:m:s')); // "2025-02-19 09:30:00"
 ```
 
 #### Static Method
 
 ```ts
-console.log(Date.format(new Date('2025-02-19T09:30:00'), 'Y/m/d'));
-// "2025/02/19"
+import '@ialopezg/common';
+
+console.log(Date.humanize(new Date('2025-02-19T09:30:00'), 'Y/m/d')); // "2025/02/19"
+```
+
+```ts
+import { humanize } from '@ialopezg/common';
+
+console.log(humanize(new Date('2025-02-19T09:30:00'), 'Y/m/d')); // "2025/02/19"
 ```
 
 #### Supported Format Tokens
@@ -295,6 +304,8 @@ Computes the time difference (in milliseconds) between this date and another dat
 #### Instance Method
 
 ```ts
+import '@ialopezg/common';
+
 const now = new Date();
 const future = new Date(now.getTime() + 60000);
 console.log(now.timeDiff(future)); // -60000
@@ -303,7 +314,17 @@ console.log(now.timeDiff(future)); // -60000
 #### Static Method
 
 ```ts
-console.log(Date.timeDiff(new Date(), new Date(Date.now() + 60000))); // 60000
+import '@ialopezg/common';
+
+console.log(Date.timeDiff(new Date(), new Date(Date.now() + 60000))); // will produce 60000
+```
+
+#### Calling the function
+
+```ts
+import { timeDiff } from '@ialopezg/common';
+
+console.log(timeDiff(new Date(), new Date(Date.now() + 60000))); // will produce 60000
 ```
 
 ---
@@ -316,6 +337,8 @@ to the current time.
 #### Instance Method
 
 ```ts
+import '@ialopezg/common';
+
 const date = new Date(Date.now() - 5 * 60 * 1000);
 console.log(date.humanizeTimeDiff()); // "5 minutes"
 ```
@@ -323,8 +346,17 @@ console.log(date.humanizeTimeDiff()); // "5 minutes"
 #### Static Method
 
 ```ts
-console.log(Date.humanizeTimeDiff(Date.now() - 60 * 1000));
-// "about a minute"
+import '@ialopezg/common';
+
+console.log(Date.humanizeTimeDiff(Date.now() - 60 * 1000)); // "about a minute"
+```
+
+#### Calling the function
+
+```ts
+import { humanizeTimeDiff } from '@ialopezg/common';
+
+console.log(humanizeTimeDiff(Date.now() - 60 * 1000)); // "about a minute"
 ```
 
 ---
@@ -336,6 +368,8 @@ Computes a human-readable relative time string for this date instance.
 #### Instance Method
 
 ```ts
+import '@ialopezg/common';
+
 const date = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000);
 console.log(date.relativeTime()); // "in 2 days"
 ```
@@ -343,8 +377,17 @@ console.log(date.relativeTime()); // "in 2 days"
 #### Static Method
 
 ```ts
-console.log(Date.relativeTime(Date.now() - 60 * 1000));
-// "about a minute ago"
+import '@ialopezg/common';
+
+console.log(Date.relativeTime(Date.now() - 60 * 1000)); // "about a minute ago"
+```
+
+#### Calling the function
+
+```ts
+import { relativeTime } from '@ialopezg/common';
+
+console.log(relativeTime(Date.now() - 60 * 1000)); // "about a minute"
 ```
 
 ---

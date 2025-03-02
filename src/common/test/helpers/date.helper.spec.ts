@@ -4,6 +4,12 @@ import * as sinon from 'sinon';
 
 import '../../helpers/date.helper';
 import '../../helpers/number.helper';
+import {
+  humanize,
+  humanizeTimeDiff,
+  relativeTime,
+  timeDiff,
+} from '../../helpers';
 
 describe('Date Extensions', () => {
   describe('humanize', () => {
@@ -61,6 +67,12 @@ describe('Date Extensions', () => {
 
     it('should humanize the date correctly when timestamp is passed', () => {
       expect(Date.humanize(date.getTime(), 'w, l D1 Y, h:m2:s2 a')).to.equal(
+        'Saturday, February 1st 2025, 3:30:00 pm',
+      );
+    });
+
+    it('should humanize the date correctly by function calling', () => {
+      expect(humanize(date, 'w, l D1 Y, h:m2:s2 a')).to.equal(
         'Saturday, February 1st 2025, 3:30:00 pm',
       );
     });
@@ -136,6 +148,15 @@ describe('Date Extensions', () => {
         '3 years',
       );
     });
+
+    it('should humanize the time diff by function calling', () => {
+      const from = new Date(Date.now());
+      const to = new Date(from.getTime() - 30000);
+
+      expect(humanizeTimeDiff(timeDiff(from, to))).to.equal(
+        'less than a minute',
+      );
+    });
   });
 
   describe('relativeTime', () => {
@@ -150,6 +171,11 @@ describe('Date Extensions', () => {
     it('should work as an instance method', () => {
       expect(new Date(Date.now() - 60000).relativeTime()).to.match(/ago$/i);
       expect(new Date(Date.now() - 60000).relativeTime()).to.match(/^about/i);
+    });
+
+    it('should compute the relative time by function calling', () => {
+      expect(relativeTime(new Date(Date.now() - 60000))).to.match(/ago$/i);
+      expect(relativeTime(new Date(Date.now() - 60000))).to.match(/^about/i);
     });
   });
 
@@ -190,6 +216,13 @@ describe('Date Extensions', () => {
       expect(Date.timeDiff(fromTimestamp, new Date(toTimestamp))).to.equal(
         60000,
       );
+    });
+
+    it('should compute the time diff by function calling', () => {
+      const from = new Date();
+      const to = new Date(from.getTime() + 60000); // 1 minute later
+
+      expect(timeDiff(from, to)).to.equal(60000);
     });
   });
 });

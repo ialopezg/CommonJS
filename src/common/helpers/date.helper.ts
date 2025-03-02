@@ -119,7 +119,7 @@ declare global {
 }
 
 /**
- * Computes a formatted date string from a Date instance.
+ * Computes a human-readable formatted date string from a Date instance.
  * This function is shared by both the Date constructor and Date.prototype.
  *
  * When used as a static method:
@@ -138,6 +138,7 @@ declare global {
  *   - mm: minutes (00-59)
  *   - ss: seconds (00-59)
  *
+ * @param {Date} date - Value to be analyzed.
  * @param {string} format - The format string.
  * @returns {string} The formatted date string.
  *
@@ -150,6 +151,13 @@ declare global {
  * // Using as a static method:
  * console.log(Date.format(new Date('2025-02-19T09:30:00'), 'YYYY/MM/DD')); // "2025/02/19"
  */
+export const humanize = (
+  date: Date | typeof Date | number,
+  format: string,
+): string => {
+  return computeFormat.call(Date, date, format);
+};
+
 const computeFormat = function (
   this: Date | typeof Date | number,
   format: string,
@@ -296,9 +304,6 @@ const computeFormat = function (
   return format.replace(/[a-z][0-9]?/gi, replaceFn);
 };
 
-/**
- * Computes the time difference in milliseconds between two dates or timestamps.
- */
 const computeTimeDiff = (
   from: Date | number,
   to: Date | number = new Date(),
@@ -308,6 +313,11 @@ const computeTimeDiff = (
 
   return toTime - fromTime;
 };
+
+/**
+ * Computes the time difference in milliseconds between two dates or timestamps.
+ */
+export const timeDiff = computeTimeDiff;
 
 /**
  * Converts a time difference (in milliseconds) into a human-readable string.
@@ -327,7 +337,7 @@ const computeTimeDiff = (
  * // For an 1-minute difference (60,000 ms):
  * console.log(humanizeTimeDiff(60 * 1000)); // "about a minute"
  */
-const humanizeTimeDiff = function (milliseconds: number): string {
+export const humanizeTimeDiff = function (milliseconds: number): string {
   const absDiff = Math.abs(milliseconds);
   const seconds = absDiff / 1000;
   const minutes = seconds / 60;
@@ -389,6 +399,8 @@ function computeRelativeTime(targetDate: Date): string {
   const base = humanizeTimeDiff(diff);
   return diff >= 0 ? `${base} ago` : `in ${base}`;
 }
+
+export const relativeTime = computeRelativeTime;
 
 // Assign the shared functions to DateConstructor (static methods)
 Date.humanize = function (date: Date | number, format: string): string {
