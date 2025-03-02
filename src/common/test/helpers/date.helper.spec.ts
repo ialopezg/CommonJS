@@ -89,6 +89,9 @@ describe('Date', () => {
 
   describe('humanizeTimeDiff', () => {
     it('should work as a static method', () => {
+      expect(Date.humanizeTimeDiff(new Date(Date.now() - 5000))).to.equal(
+        'just now',
+      ); // just now
       expect(Date.humanizeTimeDiff(new Date(Date.now() - 30000))).to.equal(
         'less than a minute',
       ); // 1 minute ago
@@ -125,6 +128,7 @@ describe('Date', () => {
     });
 
     it('should work as an instance method', () => {
+      expect(new Date(Date.now() - 5000).humanizeTimeDiff()).to.equal('just now'); // just now
       expect(new Date(Date.now() - 30000).humanizeTimeDiff()).to.equal(
         'less than a minute',
       );
@@ -390,7 +394,9 @@ describe('Date', () => {
       it('should add 5 days to the current date', () => {
         const currentDate = new Date();
         const result = currentDate.add('days', 5);
-        const expected = new Date(currentDate.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days later
+        const expected = new Date(
+          currentDate.getTime() + 5 * 24 * 60 * 60 * 1000,
+        ); // 5 days later
         expect(result.getTime()).to.equal(expected.getTime());
       });
 
@@ -406,14 +412,18 @@ describe('Date', () => {
       it('should subtract 7 days from the current date', () => {
         const currentDate = new Date();
         const result = currentDate.subtract('days', 7);
-        const expected = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000); // 7 days earlier
+        const expected = new Date(
+          currentDate.getTime() - 7 * 24 * 60 * 60 * 1000,
+        ); // 7 days earlier
         expect(result.getTime()).to.equal(expected.getTime());
       });
 
       it('should subtract 1 month from the current date', () => {
         const currentDate = new Date();
         const result = currentDate.subtract('months', 1);
-        const expected = new Date(currentDate.setMonth(currentDate.getMonth() - 1));
+        const expected = new Date(
+          currentDate.setMonth(currentDate.getMonth() - 1),
+        );
         expect(result.getTime()).to.equal(expected.getTime());
       });
     });

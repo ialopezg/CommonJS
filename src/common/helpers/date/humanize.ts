@@ -190,6 +190,7 @@ export const humanizeTimeDiff = function (milliseconds: number): string {
   const years = days / 365;
 
   const options = {
+    s: 'just now',
     ss: 'less than a minute',
     m: 'about a minute',
     mm: '%d minutes',
@@ -203,6 +204,7 @@ export const humanizeTimeDiff = function (milliseconds: number): string {
     yy: '%d years',
   };
 
+  if (seconds < 10) return options.s;
   if (seconds < 45) return options.ss;
   if (seconds < 90) return options.m;
   if (minutes < 45)
