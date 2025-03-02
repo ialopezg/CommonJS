@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.2](https://github.com/ialopezg/CommonJS/compare/v1.3.1...v1.3.2) (2025-03-02)
+
+
+### Features
+
+* export individuals function ([b7ce2c0](https://github.com/ialopezg/CommonJS/commits/b7ce2c0e76e4f9e2d6e0118099b9b45351439508))
+* improve date library ([367bf95](https://github.com/ialopezg/CommonJS/commits/367bf95483021ebca03828b81459a7c5e6296968))
+* normalize format flags ([6374080](https://github.com/ialopezg/CommonJS/commits/637408065a0afbfe24300daf4342d2138d4b5060))
+
+
+### Bug Fixes
+
+* another test error on Date helper when CI/CD ([657ed6f](https://github.com/ialopezg/CommonJS/commits/657ed6f165c69a2de1e61dbdf082103b96ae3f4c))
+* test error on Date helper ([d35225d](https://github.com/ialopezg/CommonJS/commits/d35225d0c0fb5b4988ca25f67a444e843087e0e7))
+* test error on Date helper when CI/CD ([6bd072f](https://github.com/ialopezg/CommonJS/commits/6bd072f483347a3307bbc5468696f3d670923e7b))
+
 ### [1.3.1](https://github.com/ialopezg/CommonJS/compare/v1.3.0...v1.3.1) (2025-02-28)
 
 
