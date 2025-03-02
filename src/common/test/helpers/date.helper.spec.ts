@@ -6,49 +6,63 @@ import '../../helpers/date.helper';
 import '../../helpers/number.helper';
 
 describe('Date Extensions', () => {
-  describe('format', () => {
+  describe('humanize', () => {
     let clock: sinon.SinonFakeTimers;
+    let date: Date;
 
     before(() => {
       clock = sinon.useFakeTimers(new Date('2025-02-01T09:30:00Z').getTime());
+      date = new Date('2025-02-01T20:30:00Z');
     });
 
     after(() => {
       clock.restore();
     });
 
-    it('should format the date correctly using the static method', () => {
-      const date = new Date('2025-02-01T09:30:00Z');
-
-      expect(Date.format(date, 'j d S')).to.equal('1 01 1st');
-      expect(Date.format(date, 'l D w N')).to.equal('Saturday Sat 6 6');
-      expect(Date.format(date, 'z W')).to.equal('32 05');
-      expect(Date.format(date, 'n m F M t')).to.equal('2 02 February Feb 28');
-      expect(Date.format(date, 'L Y y')).to.equal('false 2025 25');
-      expect(Date.format(date, 'a A')).to.equal('am AM');
-      expect(Date.format(date, 'g h G H')).to.equal('4 04 4 04');
-      expect(Date.format(date, 'i s U')).to.equal('30 00 1738402200');
-      expect(Date.format(date, 'I O P Z')).to.equal('false -0500 -05:00 -18000');
+    it('should humanize the date correctly using the static method', () => {
+      expect(Date.humanize(date, 'w, l D1 Y, h:m2:s2 a')).to.equal(
+        'Saturday, February 1st 2025, 3:30:00 pm',
+      );
+      expect(Date.humanize(date, 'w1 hA')).to.equal('Sat 3PM');
+      expect(Date.humanize(date, 'L L1 L2 L3 l l1')).to.equal(
+        '2 2nd 02 02nd February Feb',
+      );
+      expect(Date.humanize(date, 'Y Y1')).to.equal('2025 25');
+      expect(Date.humanize(date, 'D D1 D2 D3')).to.equal('1 1st 01 01st');
+      expect(Date.humanize(date, 'W W1 W2 W3')).to.equal('6 6th 06 06th');
+      expect(Date.humanize(date, 'd d1 d2 d3')).to.equal('32 32nd 032 032nd');
+      expect(Date.humanize(date, 'K K1 K2 K3')).to.equal('5 5th 05 05th');
+      expect(Date.humanize(date, 'H H1 H2 H3')).to.equal('15 15th 15 15th');
+      expect(Date.humanize(date, 'h h1 h2 h3')).to.equal('3 3rd 03 03rd');
+      expect(Date.humanize(date, 'm m1 m2 m3')).to.equal('30 30th 30 30th');
+      expect(Date.humanize(date, 's s1 s2 s3')).to.equal('0 0th 00 00th');
+      expect(Date.humanize(date, 'a A')).to.equal('pm PM');
     });
 
-    it('should format the date correctly using the instance method', () => {
-      const date = new Date('2025-02-01T09:30:00Z');
-
-      expect(date.format('j d S')).to.equal('1 01 1st');
-      expect(date.format('l D w N')).to.equal('Saturday Sat 6 6');
-      expect(date.format('z W')).to.equal('32 05');
-      expect(date.format('n m F M t')).to.equal('2 02 February Feb 28');
-      expect(date.format('L Y y')).to.equal('false 2025 25');
-      expect(date.format('a A')).to.equal('am AM');
-      expect(date.format('g h G H')).to.equal('4 04 4 04');
-      expect(date.format('i s U')).to.equal('30 00 1738402200');
-      expect(date.format('I O P Z')).to.equal('false -0500 -05:00 -18000');
+    it('should humanize the date correctly using the instance method', () => {
+      expect(date.humanize('w, l D1 Y, h:m2:s2 a')).to.equal(
+        'Saturday, February 1st 2025, 3:30:00 pm',
+      );
+      expect(date.humanize('w1 hA')).to.equal('Sat 3PM');
+      expect(date.humanize('L L1 L2 L3 l l1')).to.equal(
+        '2 2nd 02 02nd February Feb',
+      );
+      expect(date.humanize('Y Y1')).to.equal('2025 25');
+      expect(date.humanize('D D1 D2 D3')).to.equal('1 1st 01 01st');
+      expect(date.humanize('W W1 W2 W3')).to.equal('6 6th 06 06th');
+      expect(date.humanize('d d1 d2 d3')).to.equal('32 32nd 032 032nd');
+      expect(date.humanize('K K1 K2 K3')).to.equal('5 5th 05 05th');
+      expect(date.humanize('H H1 H2 H3')).to.equal('15 15th 15 15th');
+      expect(date.humanize('h h1 h2 h3')).to.equal('3 3rd 03 03rd');
+      expect(date.humanize('m m1 m2 m3')).to.equal('30 30th 30 30th');
+      expect(date.humanize('s s1 s2 s3')).to.equal('0 0th 00 00th');
+      expect(date.humanize('a A')).to.equal('pm PM');
     });
 
-    it('should format the date correctly when timestamp is passed', () => {
-      const date = new Date('2025-02-01T09:30:00Z');
-
-      expect(Date.format(date.getTime(), 'j d S')).to.equal('1 01 1st');
+    it('should humanize the date correctly when timestamp is passed', () => {
+      expect(Date.humanize(date.getTime(), 'w, l D1 Y, h:m2:s2 a')).to.equal(
+        'Saturday, February 1st 2025, 3:30:00 pm',
+      );
     });
   });
 

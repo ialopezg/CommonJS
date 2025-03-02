@@ -19,7 +19,7 @@ declare global {
      * const date = new Date('2025-02-19T09:30:00');
      * console.log(date.format('YYYY-MM-DD HH:mm:ss')); // "2025-02-19 09:30:00"
      */
-    format(format: string): string;
+    humanize(format: string): string;
 
     /**
      * Returns a human-readable time difference (without "ago" or "in") for this date instance,
@@ -71,7 +71,7 @@ declare global {
      * console.log(Date.format(new Date('2025-02-19T09:30:00'), 'YYYY-MM-DD HH:mm:ss'));
      * // "2025-02-19 09:30:00"
      */
-    format(date: Date | number, format: string): string;
+    humanize(date: Date | number, format: string): string;
 
     /**
      * Returns a human-readable time difference (without "ago" or "in") for the given date or timestamp,
@@ -159,10 +159,8 @@ const computeFormat = function (
   if (this instanceof Date) {
     date = this;
   } else {
-    if (arguments.length > 1) {
-      date = new Date(arguments[0] as Date | number);
-      format = arguments[1] as string;
-    }
+    date = new Date(arguments[0] as Date | number);
+    format = arguments[1] as string;
   }
 
   const weekdays = [
@@ -188,90 +186,114 @@ const computeFormat = function (
     'November',
     'December',
   ];
+  const currentYear = date.getFullYear();
+  const currentMonth = date.getMonth();
+  const currentDate = date.getDate();
+  const currentDay = date.getDay();
+  const currentHours = date.getHours();
+  const currentMinutes = date.getMinutes();
+  const currentSeconds = date.getSeconds();
   const options = {
-    /* ===== DAY OF MONTH ===== */
-    j: () => date.getDate(),
-    d: () => date.getDate().padWithChar(),
-    S: () => date.getDate().getOrdinal(),
-    /* ===== DAY OF WEEK ===== */
-    l: () => weekdays[date.getDay()],
-    D: () => weekdays[date.getDay()].slice(0, 3),
-    w: () => date.getDay(),
-    N: () => date.getDay() || 7,
-    /* ===== DAY OF YEAR ===== */
-    z: () => {
-      const a = new Date(options.Y(), options.n() - 1, options.j()).getTime();
-      const b = new Date(options.Y(), 0, 1).getTime();
-
-      return ((a - b) / 846e5 + 0.5) | 0;
-    },
-    /* ===== WEEK ===== */
-    W: () => {
-      const a = new Date(options.Y(), options.n() - 1, options.j()).getTime();
-      const b = new Date(options.Y(), 0, 4).getTime();
-
-      return (((a - b) / 846e5 / 7 + 1.5) | 0).padWithChar();
-    },
     /* ===== MONTH ===== */
-    n: () => date.getMonth() + 1,
-    m: () => options.n().padWithChar(),
-    F: () => months[options.n() - 1],
-    M: () => options.F().slice(0, 3),
-    t: () => new Date(options.Y(), options.n(), 0).getDate(),
+    L: (ordinal: boolean, zerofill: boolean) => {
+      const output = ordinal
+        ? (currentMonth + 1).getOrdinal()
+        : currentMonth + 1;
+
+      return zerofill ? output.padWithChar('0', ordinal ? 4 : 2) : output;
+    },
+    l: (shorthand: boolean) =>
+      shorthand ? months[currentMonth].slice(0, 3) : months[currentMonth],
+
+    /* ===== DAY OF MONTH ===== */
+    D: (ordinal: boolean, zerofill: boolean) => {
+      const output = ordinal ? currentDate.getOrdinal() : currentDate;
+
+      return zerofill ? output.padWithChar('0', ordinal ? 4 : 2) : output;
+    },
+
+    /* ===== DAY OF YEAR ===== */
+    d: (ordinal: boolean, zerofill: boolean) => {
+      const difference =
+        (computeTimeDiff(
+          new Date(currentYear, 0, 1),
+          new Date(currentYear, currentMonth, currentDate),
+        ) /
+          864e5 +
+          1.5) |
+        0;
+      const output = ordinal ? difference.getOrdinal() : difference;
+
+      return zerofill ? output.padWithChar('0', ordinal ? 5 : 3) : output;
+    },
+
+    /* ===== WEEKDAY ===== */
+    W: (ordinal: boolean, zerofill: boolean) => {
+      const output = ordinal ? currentDay.getOrdinal() : currentDay;
+
+      return zerofill ? output.padWithChar('0', ordinal ? 4 : 2) : output;
+    },
+    w: (shorthand: boolean) =>
+      shorthand ? weekdays[currentDay].slice(0, 3) : weekdays[currentDay],
+
+    /* ===== WEEK OF YEAR ===== */
+    K: (ordinal: boolean, zerofill: boolean) => {
+      const to = new Date(
+        currentYear,
+        currentMonth,
+        currentDate - currentDay + 5,
+      );
+      const from = new Date(to.getFullYear(), 0, 4);
+      const difference = (computeTimeDiff(from, to) / 864e5 / 7 + 1.5) | 0;
+      const output = ordinal ? difference.getOrdinal() : difference;
+
+      return zerofill ? output.padWithChar('0', ordinal ? 4 : 2) : output;
+    },
+
     /* ===== YEAR ===== */
-    L: () => new Date(options.Y(), 1, 29).getMonth() === 1 || false,
-    Y: () => date.getFullYear(),
-    y: () => String(options.Y()).slice(-2),
+    Y: (shorthand: boolean) =>
+      shorthand ? String(currentYear).slice(-2) : currentYear,
+
     /* ===== TIME ===== */
-    a: () => (options.G() > 11 ? 'pm' : 'am'),
-    A: () => options.a().toUpperCase(),
-    B: () => {
-      const hours = date.getUTCHours() * 3600;
-      const minutes = date.getUTCMinutes() * 60;
-      const seconds = date.getUTCSeconds();
+    A: () => (currentHours > 11 ? 'PM' : 'AM'),
+    a: () => (currentHours > 11 ? 'pm' : 'am'),
 
-      return String(
-        ((hours + minutes + seconds + 3600) / 86.4) % 1e3 | 0,
-      ).padWithChar('0', 3);
-    },
     /* ===== HOURS ===== */
-    g: () => options.G() % 12 || 12,
-    h: () => options.g().padWithChar(),
-    G: () => date.getHours(),
-    H: () => options.G().padWithChar(),
-    /* ===== MINUTES SECONDS MILLISECONDS ===== */
-    i: () => date.getMinutes().padWithChar(),
-    s: () => date.getSeconds().padWithChar(),
-    U: () => (date.getTime() / 1000) | 0,
-    /* ===== TIMEZONE ===== */
-    I: () => {
-      const year = options.Y();
-      const offset = Math.max(
-        new Date(year, 0, 1).getTimezoneOffset(),
-        new Date(year, 0, 6).getTimezoneOffset(),
-      );
+    H: (ordinal: boolean, zerofill: boolean) => {
+      const output = ordinal ? currentHours.getOrdinal() : currentHours;
 
-      return date.getTimezoneOffset() < offset;
+      return zerofill ? output.padWithChar('0', ordinal ? 4 : 2) : output;
     },
-    O: () => {
-      const offset = date.getTimezoneOffset();
+    h: (ordinal: boolean, zerofill: boolean) => {
+      const result = currentHours % 12 || 12;
+      const output = ordinal ? result.getOrdinal() : result;
 
-      return (
-        (offset > 0 ? '-' : '+') +
-        Math.abs((offset / 60) * 100).padWithChar('0', 4)
-      );
+      return zerofill ? output.padWithChar('0', ordinal ? 4 : 2) : output;
     },
-    P: () => {
-      const offset = options.O();
 
-      return offset.slice(0, 3) + ':' + offset.slice(-2);
+    /* ===== MINUTES ===== */
+    m: (ordinal: boolean, zerofill: boolean) => {
+      const output = ordinal ? currentMinutes.getOrdinal() : currentMinutes;
+
+      return zerofill ? output.padWithChar('0', ordinal ? 4 : 2) : output;
     },
-    Z: () => -date.getTimezoneOffset() * 60,
+
+    /* ===== SECONDS ===== */
+    s: (ordinal: boolean, zerofill: boolean) => {
+      const output = ordinal ? currentSeconds.getOrdinal() : currentSeconds;
+
+      return zerofill ? output.padWithChar('0', ordinal ? 4 : 2) : output;
+    },
   };
 
-  return format.replace(/[ABDFGHILMNOPSUWYZadghijlmnstwyz]/g, (token) =>
-    options[token](),
-  );
+  const replaceFn = (input: string) => {
+    const option = input.charAt(0);
+    const param = parseInt(input.charAt(1), 10) || 0;
+
+    return options[option] ? options[option](param & 1, param >> 1) : input;
+  };
+
+  return format.replace(/[a-z][0-9]?/gi, replaceFn);
 };
 
 /**
@@ -298,11 +320,11 @@ const computeTimeDiff = (
  * @returns A human-friendly string representing the time difference.
  *
  * @example
- * // For a 5 minute difference (300,000 ms):
+ * // For a 5-minute difference (300,000 ms):
  * console.log(humanizeTimeDiff(5 * 60 * 1000)); // "5 minutes"
  *
  * @example
- * // For an 1 minute difference (60,000 ms):
+ * // For an 1-minute difference (60,000 ms):
  * console.log(humanizeTimeDiff(60 * 1000)); // "about a minute"
  */
 const humanizeTimeDiff = function (milliseconds: number): string {
@@ -369,7 +391,7 @@ function computeRelativeTime(targetDate: Date): string {
 }
 
 // Assign the shared functions to DateConstructor (static methods)
-Date.format = function (date: Date | number, format: string): string {
+Date.humanize = function (date: Date | number, format: string): string {
   return computeFormat.call(Date, date, format);
 };
 Date.humanizeTimeDiff = function (from?: Date | number): string {
@@ -393,6 +415,6 @@ Date.prototype.relativeTime = function (): string {
 Date.prototype.timeDiff = function (this: Date, to?: Date | number): number {
   return computeTimeDiff(this, to);
 };
-Date.prototype.format = function (this: Date, format: string): string {
+Date.prototype.humanize = function (this: Date, format: string): string {
   return computeFormat.call(this, format);
 };

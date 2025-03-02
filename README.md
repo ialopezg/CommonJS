@@ -20,13 +20,18 @@ npm install @ialopezg/commonjs
 ```javascript
 import '@ialopezg/commonjs';
 
+// strings
 const cardNumber = '1234-5678-9098-7654';
 const part1 = (cardNumber.slice(0, 4) + '-').padWithChar('*', 9, 'right');
 const part2 = ('-' + cardNumber.slice(-4)).padWithChar('*', 9, 'left');
+console.log([part1, part2].join('-')); // Will produce 1234-****-****-7654
 
-console.log([part1, part2].join('-')) // Will produce 1234-****-****-7654
+// numbers
 console.log('41'.padWithChar('*', 4, 'right')); // will produce 42**
 console.log((42).padWithChar('0', 4, 'left')); // will produce 0042
+
+// dates
+console.log(new Date(2010, 1, 14, 15, 25, 50, 125).humanize('w, l D1 Y, h:m2:s2 a')); // will procuce Monday, February 1st 2025, 3:30:00 pm
 ```
 
 ## Documentation
@@ -34,11 +39,11 @@ console.log((42).padWithChar('0', 4, 'left')); // will produce 0042
 The library is organized into several helper modules. Click on the links below for detailed usage
 and examples:
 
-| Helper                           | Description                                                                                                                               | Extension |
-|----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|:---------:|
-| [Date](docs/helpers/date.md)     | Extends native Date and DateConstructor type with extra functionalities such as: `format`, `humanizeTimeDiff`, `relativeTime`, `timeDiff` |  &check;  |
-| [Number](docs/helpers/number.md) | Extends native Number and NumberConstructor type with extra functionalities such as: `getOrdinal`, `padWithChar`                          |  &check;  |
-| [String](docs/helpers/string.md) | Extends native string type with extra functionalities such as: `padWitchChar`                                                             |  &check;  |
+| Helper                           | Description                                                                                                                                 | Extension |
+|----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|:---------:|
+| [Date](docs/helpers/date.md)     | Extends native Date and DateConstructor type with extra functionalities such as: `humanize`, `humanizeTimeDiff`, `relativeTime`, `timeDiff` |  &check;  |
+| [Number](docs/helpers/number.md) | Extends native Number and NumberConstructor type with extra functionalities such as: `getOrdinal`, `padWithChar`                            |  &check;  |
+| [String](docs/helpers/string.md) | Extends native string type with extra functionalities such as: `padWitchChar`                                                               |  &check;  |
 
 ## Contributing
 

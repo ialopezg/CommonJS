@@ -11,6 +11,7 @@ describe('Number', () => {
       expect(Number(3).getOrdinal()).to.equals('3rd');
       expect(Number(4).getOrdinal()).to.equals('4th');
       expect(Number(11).getOrdinal()).to.equals('11th');
+      expect(Number(12).getOrdinal()).to.equals('12th');
       expect(Number(21).getOrdinal()).to.equals('21st');
       expect(Number(102).getOrdinal()).to.equals('102nd');
       expect(Number(113).getOrdinal()).to.equals('113th');
