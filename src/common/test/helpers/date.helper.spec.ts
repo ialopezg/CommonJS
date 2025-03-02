@@ -43,6 +43,7 @@ describe('Date Extensions', () => {
       expect(Date.humanize(date, 'm mm')).to.equal('30 30');
       expect(Date.humanize(date, 's ss')).to.equal('0 00');
       expect(Date.humanize(date, 'a A')).to.equal('pm PM');
+      expect(Date.humanize(date, 'MM/DD/YY hh:mm:ss A')).to.equal('02/01/25 03:30:00 PM');
     });
 
     it('should humanize the date correctly using the instance method', () => {

@@ -270,7 +270,7 @@ const computeFormat = function (
 
   return format.replace(
     /Mo|MM?M?M?|Do|DDDo|DD?D?D?|do|dd?d?d?|w[o|w]?|YYYY|YY|[aA]|hh?|HH?|mm?|ss?/g,
-    (token) => options[token](),
+    (token) => options[token] ? options[token]() : token,
   );
 };
 
