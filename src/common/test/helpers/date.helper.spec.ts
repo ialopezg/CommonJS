@@ -5,29 +5,31 @@ import * as sinon from 'sinon';
 import '../../helpers/date.helper';
 import '../../helpers/number.helper';
 
-import { isLeapYear } from '../../helpers/date';
 import {
+  adjustDate,
   humanize,
   humanizeTimeDiff,
+  isDST,
+  isLeapYear,
   relativeTime,
   timeDiff,
-} from '../../helpers';
+} from '../../helpers/date';
 
 describe('Date', () => {
+  let clock: sinon.SinonFakeTimers;
+  let date: Date;
+
+  before(() => {
+    clock = sinon.useFakeTimers(new Date('2025-02-01T09:30:00Z').getTime());
+    date = new Date('2025-02-01T20:30:00Z');
+  });
+
+  after(() => {
+    clock.restore();
+  });
+
   describe('humanize', () => {
-    let clock: sinon.SinonFakeTimers;
-    let date: Date;
-
-    before(() => {
-      clock = sinon.useFakeTimers(new Date('2025-02-01T09:30:00Z').getTime());
-      date = new Date('2025-02-01T20:30:00Z');
-    });
-
-    after(() => {
-      clock.restore();
-    });
-
-    it('should humanize the date correctly using the static method', () => {
+    it('should humanize.md the date correctly using the static method', () => {
       expect(Date.humanize(date, 'dddd, MMMM Do YYYY, h:mm:ss a')).to.equal(
         'Saturday, February 1st 2025, 3:30:00 pm',
       );
@@ -52,7 +54,7 @@ describe('Date', () => {
       );
     });
 
-    it('should humanize the date correctly using the instance method', () => {
+    it('should humanize.md the date correctly using the instance method', () => {
       expect(date.humanize('dddd, MMMM Do YYYY, h:mm:ss a')).to.equal(
         'Saturday, February 1st 2025, 3:30:00 pm',
       );
@@ -72,13 +74,13 @@ describe('Date', () => {
       expect(date.humanize('a A')).to.equal('pm PM');
     });
 
-    it('should humanize the date correctly when timestamp is passed', () => {
+    it('should humanize.md the date correctly when timestamp is passed', () => {
       expect(
         Date.humanize(date.getTime(), 'dddd, MMMM Do YYYY, h:mm:ss a'),
       ).to.equal('Saturday, February 1st 2025, 3:30:00 pm');
     });
 
-    it('should humanize the date correctly by function calling', () => {
+    it('should humanize.md the date correctly by function calling', () => {
       expect(humanize(date, 'dddd, MMMM Do YYYY, h:mm:ss a')).to.equal(
         'Saturday, February 1st 2025, 3:30:00 pm',
       );
@@ -156,7 +158,7 @@ describe('Date', () => {
       );
     });
 
-    it('should humanize the time diff by function calling', () => {
+    it('should humanize.md the time diff by function calling', () => {
       const from = new Date(Date.now());
       const to = new Date(from.getTime() - 30000);
 
@@ -315,6 +317,104 @@ describe('Date', () => {
         expect(() =>
           Date.prototype.isLeapYear.call(null as unknown as Date),
         ).to.throw(TypeError);
+      });
+    });
+  });
+
+  describe('isDST', () => {
+    describe('Standalone Function', () => {
+      it('should correctly identify if the current date is in DST', () => {
+        const dateInDST = new Date('2025-06-15'); // Example date in DST (for testing purpose)
+        const dateNotInDST = new Date('2025-01-15'); // Example date not in DST
+
+        expect(isDST(dateInDST)).to.be.true;
+        expect(isDST(dateNotInDST)).to.be.false;
+      });
+
+      it('should return false for a date in a non-DST region', () => {
+        const dateNotInDST = new Date('2025-01-15');
+        expect(isDST(dateNotInDST)).to.be.false;
+      });
+    });
+
+    describe('Date.prototype.isDST Method', () => {
+      it('should correctly identify if the current date is in DST', () => {
+        const dateInDST = new Date('2025-06-15'); // Example date in DST
+        const dateNotInDST = new Date('2025-01-15'); // Example date not in DST
+
+        expect(dateInDST.isDST()).to.be.true;
+        expect(dateNotInDST.isDST()).to.be.false;
+      });
+    });
+
+    describe('Date.isDST Method', () => {
+      it('should correctly identify if the provided date is in DST', () => {
+        const dateInDST = new Date('2025-06-15'); // Example date in DST
+        const dateNotInDST = new Date('2025-01-15'); // Example date not in DST
+
+        expect(Date.isDST(dateInDST)).to.be.true;
+        expect(Date.isDST(dateNotInDST)).to.be.false;
+      });
+
+      it('should return false for a date in a non-DST region', () => {
+        const dateNotInDST = new Date('2025-01-15');
+        expect(Date.isDST(dateNotInDST)).to.be.false;
+      });
+    });
+  });
+
+  describe('adjustDate', () => {
+    describe('adjustDate', () => {
+      it('should add 5 days to a date string', () => {
+        const result = adjustDate('2025-03-01T12:00:00', 'days', 5);
+        const expected = new Date('2025-03-06T12:00:00');
+        expect(result.getTime()).to.equal(expected.getTime());
+      });
+
+      it('should subtract 2 months from a timestamp', () => {
+        const timestamp = 1738368000000; // 2023-02-01T00:00:00Z
+        const result = adjustDate(timestamp, 'months', -2);
+        const expected = new Date('2024-12-02T00:00:00.000Z');
+
+        expect(result.getTime()).to.equal(expected.getTime());
+      });
+
+      it('should add 1 year to a Date object', () => {
+        const result = adjustDate(new Date('2025-03-01T12:00:00'), 'years', 1);
+        const expected = new Date('2026-03-01T12:00:00');
+        expect(result.getTime()).to.equal(expected.getTime());
+      });
+    });
+
+    describe('add', () => {
+      it('should add 5 days to the current date', () => {
+        const currentDate = new Date();
+        const result = currentDate.add('days', 5);
+        const expected = new Date(currentDate.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days later
+        expect(result.getTime()).to.equal(expected.getTime());
+      });
+
+      it('should add 3 hours to the current date', () => {
+        const currentDate = new Date();
+        const result = currentDate.add('hours', 3);
+        const expected = new Date(currentDate.getTime() + 3 * 60 * 60 * 1000); // 3 hours later
+        expect(result.getTime()).to.equal(expected.getTime());
+      });
+    });
+
+    describe('subtract', () => {
+      it('should subtract 7 days from the current date', () => {
+        const currentDate = new Date();
+        const result = currentDate.subtract('days', 7);
+        const expected = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000); // 7 days earlier
+        expect(result.getTime()).to.equal(expected.getTime());
+      });
+
+      it('should subtract 1 month from the current date', () => {
+        const currentDate = new Date();
+        const result = currentDate.subtract('months', 1);
+        const expected = new Date(currentDate.setMonth(currentDate.getMonth() - 1));
+        expect(result.getTime()).to.equal(expected.getTime());
       });
     });
   });
