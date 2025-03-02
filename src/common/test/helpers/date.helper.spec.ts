@@ -4,6 +4,8 @@ import * as sinon from 'sinon';
 
 import '../../helpers/date.helper';
 import '../../helpers/number.helper';
+
+import { isLeapYear } from '../../helpers/date';
 import {
   humanize,
   humanizeTimeDiff,
@@ -11,7 +13,7 @@ import {
   timeDiff,
 } from '../../helpers';
 
-describe('Date Extensions', () => {
+describe('Date', () => {
   describe('humanize', () => {
     let clock: sinon.SinonFakeTimers;
     let date: Date;
@@ -35,7 +37,9 @@ describe('Date Extensions', () => {
       );
       expect(Date.humanize(date, 'YYYY YY')).to.equal('2025 25');
       expect(Date.humanize(date, 'D Do DD')).to.equal('1 1st 01');
-      expect(Date.humanize(date, 'd do ddd dddd')).to.equal('6 6th Sat Saturday');
+      expect(Date.humanize(date, 'd do ddd dddd')).to.equal(
+        '6 6th Sat Saturday',
+      );
       expect(Date.humanize(date, 'DDD DDDo DDDD')).to.equal('32 32nd 032');
       expect(Date.humanize(date, 'w wo ww')).to.equal('5 5th 05');
       expect(Date.humanize(date, 'H HH')).to.equal('15 15');
@@ -43,7 +47,9 @@ describe('Date Extensions', () => {
       expect(Date.humanize(date, 'm mm')).to.equal('30 30');
       expect(Date.humanize(date, 's ss')).to.equal('0 00');
       expect(Date.humanize(date, 'a A')).to.equal('pm PM');
-      expect(Date.humanize(date, 'MM/DD/YY hh:mm:ss A')).to.equal('02/01/25 03:30:00 PM');
+      expect(Date.humanize(date, 'MM/DD/YY hh:mm:ss A')).to.equal(
+        '02/01/25 03:30:00 PM',
+      );
     });
 
     it('should humanize the date correctly using the instance method', () => {
@@ -224,6 +230,92 @@ describe('Date Extensions', () => {
       const to = new Date(from.getTime() + 60000); // 1 minute later
 
       expect(timeDiff(from, to)).to.equal(60000);
+    });
+  });
+
+  describe('isLeapYear', () => {
+    describe('Standalone isLeapYear function', () => {
+      it('should return true for leap years', () => {
+        expect(isLeapYear(2024)).to.be.true;
+        expect(isLeapYear(new Date(2024, 0, 1))).to.be.true;
+        expect(isLeapYear(1704085200000)).to.be.true; // Timestamp for 2024-01-01
+      });
+
+      it('should return false for non-leap years', () => {
+        expect(isLeapYear(-500)).to.be.false;
+        expect(isLeapYear(1900)).to.be.false;
+        expect(isLeapYear(new Date(1900, 0, 1))).to.be.false;
+        expect(isLeapYear(new Date(1900, 0, 1).getTime())).to.be.false;
+      });
+
+      it('should throw an error for invalid inputs', () => {
+        expect(() => isLeapYear('invalid' as unknown as Date)).to.throw(
+          TypeError,
+        );
+        expect(() => isLeapYear(new Date('invalid-date'))).to.throw(TypeError);
+        expect(() => isLeapYear(10000)).to.throw(TypeError);
+        expect(() => isLeapYear(NaN)).to.throw(TypeError);
+      });
+    });
+
+    describe('Date.isLeapYear method', () => {
+      it('should return true for leap years', () => {
+        expect(Date.isLeapYear(2024)).to.be.true;
+        expect(Date.isLeapYear(new Date(2024, 0, 1))).to.be.true;
+        expect(Date.isLeapYear(1704085200000)).to.be.true; // Timestamp for 2024-01-01
+      });
+
+      it('should return false for non-leap years', () => {
+        expect(Date.isLeapYear(-500)).to.be.false;
+        expect(Date.isLeapYear(1900)).to.be.false;
+        expect(Date.isLeapYear(new Date(1900, 0, 1))).to.be.false;
+        expect(Date.isLeapYear(new Date(1900, 0, 1).getTime())).to.be.false;
+      });
+
+      it('should throw an error for invalid inputs', () => {
+        expect(() => Date.isLeapYear('invalid' as unknown as Date)).to.throw(
+          TypeError,
+        );
+        expect(() => Date.isLeapYear(new Date('invalid-date'))).to.throw(
+          TypeError,
+        );
+        expect(() => Date.isLeapYear(10000)).to.throw(TypeError);
+        expect(() => Date.isLeapYear(NaN)).to.throw(TypeError);
+      });
+    });
+
+    describe('Date.prototype.isLeapYear method', () => {
+      it('should return true for leap years', () => {
+        expect(new Date(2024, 0, 1).isLeapYear()).to.be.true;
+        expect(new Date(2000, 0, 1).isLeapYear()).to.be.true;
+      });
+
+      it('should return false for non-leap years', () => {
+        expect(Date.isLeapYear(-500)).to.be.false;
+        expect(new Date(1900, 0, 1).isLeapYear()).to.be.false;
+        expect(new Date(2023, 0, 1).isLeapYear()).to.be.false;
+      });
+
+      it('should throw an error for invalid dates', () => {
+        expect(() => new Date('invalid-date').isLeapYear()).to.throw(TypeError);
+      });
+
+      it('should return correct results when calling isLeapYear function directly from prototype', () => {
+        const date1 = new Date(2024, 0, 1);
+        const date2 = new Date(1900, 0, 1);
+
+        expect(Date.prototype.isLeapYear.call(date1)).to.be.true;
+        expect(Date.prototype.isLeapYear.call(date2)).to.be.false;
+      });
+
+      it('should throw an error when calling isLeapYear function with an invalid date context', () => {
+        expect(() =>
+          Date.prototype.isLeapYear.call('invalid' as unknown as Date),
+        ).to.throw(TypeError);
+        expect(() =>
+          Date.prototype.isLeapYear.call(null as unknown as Date),
+        ).to.throw(TypeError);
+      });
     });
   });
 });

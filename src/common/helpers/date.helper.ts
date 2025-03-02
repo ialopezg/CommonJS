@@ -1,4 +1,5 @@
 import './number.helper';
+import { isLeapYear } from './date';
 
 declare global {
   interface Date {
@@ -33,6 +34,26 @@ declare global {
      * // Output: "5 minutes"
      */
     humanizeTimeDiff(): string;
+
+    /**
+     * Determines whether a given year is a leap year.
+     *
+     * This function can accept a `Date` object, a valid year (number), or a timestamp.
+     * If the input is invalid (such as BCE years or out-of-range years), the function will return `false`.
+     * The function will return a `TypeError` for invalid inputs.
+     *
+     * @returns `true` if the input year is a leap year, otherwise `false`.
+     *
+     * @throws `TypeError` if the input is invalid.
+     *  - Invalid `Date` object.
+     *  - Invalid year (e.g., negative or greater than 9999).
+     *  - Invalid timestamp.
+     *
+     * @example
+     * const date = new Date(2024, 0, 1);
+     * console.log(date.isLeapYear()); // true
+     */
+    isLeapYear(): boolean;
 
     /**
      * Returns a human-readable relative time string for this date instance.
@@ -85,6 +106,20 @@ declare global {
      * // Output: "about a minute"
      */
     humanizeTimeDiff(from?: Date | number): string;
+
+    /**
+     * Determines if a given year, `Date` instance, or timestamp represents a leap year.
+     *
+     * @param {Date | number} input - A `Date` instance, a timestamp (number), or a year number.
+     * @returns {boolean} `true` if the year is a leap year, otherwise `false`
+     * @throws {TypeError} If the input is not a valid `Date`, timestamp, or year number.
+     *
+     * @example
+     * console.log(Date.isLeapYear(2024)); // true
+     * console.log(Date.isLeapYear(new Date(2024, 0, 1))); // true
+     * console.log(Date.isLeapYear(1704067200000)); // true (Timestamp for 2024-01-01)
+     */
+    isLeapYear(input: Date | number): boolean;
 
     /**
      * Returns a human-readable relative time string for the given date or timestamp.
@@ -269,7 +304,7 @@ const computeFormat = function (
 
   return format.replace(
     /Mo|MM?M?M?|Do|DDDo|DD?D?D?|do|dd?d?d?|w[o|w]?|YYYY|YY|[aA]|hh?|HH?|mm?|ss?/g,
-    (token) => options[token] ? options[token]() : token,
+    (token) => (options[token] ? options[token]() : token),
   );
 };
 
@@ -399,3 +434,21 @@ Date.prototype.timeDiff = function (this: Date, to?: Date | number): number {
 Date.prototype.humanize = function (this: Date, format: string): string {
   return computeFormat.call(this, format);
 };
+
+// Attach to DateConstructor
+Object.defineProperty(Date, 'isLeapYear', {
+  value: isLeapYear,
+  writable: false,
+  configurable: false,
+  enumerable: false,
+});
+
+// Extend Date prototype
+Object.defineProperty(Date.prototype, 'isLeapYear', {
+  value: function (this: Date): boolean {
+    return isLeapYear(this);
+  },
+  writable: false,
+  configurable: false,
+  enumerable: false,
+});
