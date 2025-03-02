@@ -19,10 +19,10 @@ declare global {
     /**
      * Masks the current string based on the given masking type or custom mask character.
      *
-     * @param maskCharOrType - The type of masking to apply or a custom mask character.
-     * @param visibleStart - Number of characters to remain visible at the beginning.
-     * @param visibleEnd - Number of characters to remain visible at the end.
-     * @returns A masked version of the string.
+     * @param {MaskType|string} maskCharOrType - The type of masking to apply or a custom mask character.
+     * @param {number} visibleStart - Number of characters to remain visible at the beginning.
+     * @param {number} visibleEnd - Number of characters to remain visible at the end.
+     * @returns {string} A masked version of the string.
      */
     mask(
       maskCharOrType?: MaskType | string,
