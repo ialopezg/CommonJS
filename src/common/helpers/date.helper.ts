@@ -203,105 +203,75 @@ const computeFormat = function (
   const currentSeconds = date.getSeconds();
   const options = {
     /* ===== MONTH ===== */
-    L: (ordinal: boolean, zerofill: boolean) => {
-      const output = ordinal
-        ? (currentMonth + 1).getOrdinal()
-        : currentMonth + 1;
-
-      return zerofill ? output.padWithChar('0', ordinal ? 4 : 2) : output;
-    },
-    l: (shorthand: boolean) =>
-      shorthand ? months[currentMonth].slice(0, 3) : months[currentMonth],
+    M: () => currentMonth + 1,
+    Mo: () => (currentMonth + 1).getOrdinal(),
+    MM: () => (currentMonth + 1).padWithChar('0', 2),
+    MMM: () => months[currentMonth].slice(0, 3),
+    MMMM: () => months[currentMonth],
 
     /* ===== DAY OF MONTH ===== */
-    D: (ordinal: boolean, zerofill: boolean) => {
-      const output = ordinal ? currentDate.getOrdinal() : currentDate;
-
-      return zerofill ? output.padWithChar('0', ordinal ? 4 : 2) : output;
-    },
+    D: () => currentDate,
+    Do: () => currentDate.getOrdinal(),
+    DD: () => currentDate.padWithChar('0', 2),
 
     /* ===== DAY OF YEAR ===== */
-    d: (ordinal: boolean, zerofill: boolean) => {
-      const difference =
-        (computeTimeDiff(
-          new Date(currentYear, 0, 1),
-          new Date(currentYear, currentMonth, currentDate),
-        ) /
-          864e5 +
-          1.5) |
-        0;
-      const output = ordinal ? difference.getOrdinal() : difference;
+    DDD: () => {
+      const from = new Date(currentYear, 0, 1);
+      const to = new Date(currentYear, currentMonth, currentDate);
 
-      return zerofill ? output.padWithChar('0', ordinal ? 5 : 3) : output;
+      return (computeTimeDiff(from, to) / 864e5 + 1.5) | 0;
     },
+    DDDo: () => options.DDD().getOrdinal(),
+    DDDD: () => options.DDD().padWithChar('0', 3),
 
     /* ===== WEEKDAY ===== */
-    W: (ordinal: boolean, zerofill: boolean) => {
-      const output = ordinal ? currentDay.getOrdinal() : currentDay;
-
-      return zerofill ? output.padWithChar('0', ordinal ? 4 : 2) : output;
-    },
-    w: (shorthand: boolean) =>
-      shorthand ? weekdays[currentDay].slice(0, 3) : weekdays[currentDay],
+    d: () => currentDay,
+    do: () => currentDay.getOrdinal(),
+    dd: () => currentDay.padWithChar('0', 2),
+    ddd: () => weekdays[currentDay].slice(0, 3),
+    dddd: () => weekdays[currentDay],
 
     /* ===== WEEK OF YEAR ===== */
-    K: (ordinal: boolean, zerofill: boolean) => {
+    w: () => {
       const to = new Date(
         currentYear,
         currentMonth,
         currentDate - currentDay + 5,
       );
       const from = new Date(to.getFullYear(), 0, 4);
-      const difference = (computeTimeDiff(from, to) / 864e5 / 7 + 1.5) | 0;
-      const output = ordinal ? difference.getOrdinal() : difference;
 
-      return zerofill ? output.padWithChar('0', ordinal ? 4 : 2) : output;
+      return (computeTimeDiff(from, to) / 864e5 / 7 + 1.5) | 0;
     },
+    wo: () => options.w().getOrdinal(),
+    ww: () => options.w().padWithChar('0', 2),
 
     /* ===== YEAR ===== */
-    Y: (shorthand: boolean) =>
-      shorthand ? String(currentYear).slice(-2) : currentYear,
+    YY: () => String(currentYear).slice(-2),
+    YYYY: () => currentYear,
 
     /* ===== TIME ===== */
     A: () => (currentHours > 11 ? 'PM' : 'AM'),
     a: () => (currentHours > 11 ? 'pm' : 'am'),
 
     /* ===== HOURS ===== */
-    H: (ordinal: boolean, zerofill: boolean) => {
-      const output = ordinal ? currentHours.getOrdinal() : currentHours;
-
-      return zerofill ? output.padWithChar('0', ordinal ? 4 : 2) : output;
-    },
-    h: (ordinal: boolean, zerofill: boolean) => {
-      const result = currentHours % 12 || 12;
-      const output = ordinal ? result.getOrdinal() : result;
-
-      return zerofill ? output.padWithChar('0', ordinal ? 4 : 2) : output;
-    },
+    H: () => currentHours,
+    HH: () => currentHours.padWithChar('0', 2),
+    h: () => currentHours % 12 || 12,
+    hh: () => options.h().padWithChar('0', 2),
 
     /* ===== MINUTES ===== */
-    m: (ordinal: boolean, zerofill: boolean) => {
-      const output = ordinal ? currentMinutes.getOrdinal() : currentMinutes;
-
-      return zerofill ? output.padWithChar('0', ordinal ? 4 : 2) : output;
-    },
+    m: () => currentMinutes,
+    mm: () => currentMinutes.padWithChar('0', 2),
 
     /* ===== SECONDS ===== */
-    s: (ordinal: boolean, zerofill: boolean) => {
-      const output = ordinal ? currentSeconds.getOrdinal() : currentSeconds;
-
-      return zerofill ? output.padWithChar('0', ordinal ? 4 : 2) : output;
-    },
+    s: () => currentSeconds,
+    ss: () => currentSeconds.padWithChar('0', 2),
   };
 
-  const replaceFn = (input: string) => {
-    const option = input.charAt(0);
-    const param = parseInt(input.charAt(1), 10) || 0;
-
-    return options[option] ? options[option](param & 1, param >> 1) : input;
-  };
-
-  return format.replace(/[a-z][0-9]?/gi, replaceFn);
+  return format.replace(
+    /Mo|MM?M?M?|Do|DDDo|DD?D?D?|do|dd?d?d?|w[o|w]?|YYYY|YY|[aA]|hh?|HH?|mm?|ss?/g,
+    (token) => options[token](),
+  );
 };
 
 const computeTimeDiff = (
@@ -346,20 +316,20 @@ export const humanizeTimeDiff = function (milliseconds: number): string {
   const years = days / 365;
 
   const options = {
-    ss: 'less than a minute',
+    s: 'less than a minute',
     m: 'about a minute',
     mm: '%d minutes',
     h: 'about an hour',
     hh: 'about %d hours',
     d: 'a day',
     dd: '%d days',
-    n: 'about a month',
-    nn: '%d months',
+    M: 'about a month',
+    MM: '%d months',
     y: 'about a year',
     yy: '%d years',
   };
 
-  if (seconds < 45) return options.ss;
+  if (seconds < 45) return options.s;
   if (seconds < 90) return options.m;
   if (minutes < 45)
     return options.mm.replace('%d', String(Math.floor(minutes)));
@@ -367,9 +337,9 @@ export const humanizeTimeDiff = function (milliseconds: number): string {
   if (hours < 24) return options.hh.replace('%d', String(Math.floor(hours)));
   if (hours < 48) return options.d;
   if (days < 30) return options.dd.replace('%d', String(Math.floor(days)));
-  if (days < 60) return options.n;
+  if (days < 60) return options.M;
   if (days < 350)
-    return options.nn.replace('%d', String(Math.floor(days / 30)));
+    return options.MM.replace('%d', String(Math.floor(days / 30)));
   if (years < 2) return options.y;
   return options.yy.replace('%d', String(Math.floor(years)));
 };

@@ -1,4 +1,6 @@
-# @ialopezg/CommonJS
+# CommonJS
+
+---
 
 > A collection of utility functions for handling strings, numbers, dates, objects, booleans, paths,
 > and more.
