@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.4](https://github.com/ialopezg/CommonJS/compare/v1.3.3...v1.3.4) (2025-03-03)
+
+
+### Features
+
+* add adjustDate, add, subtract functions ([f62b48a](https://github.com/ialopezg/CommonJS/commits/f62b48a914e22b2af5371ce3515fdafa0bcc25cd))
+* add isLeapYear function ([3426738](https://github.com/ialopezg/CommonJS/commits/3426738d41965b2f7d5879eaa41a5dc81ac7332b))
+* improve humanizeTimeDiff function ([cbb3552](https://github.com/ialopezg/CommonJS/commits/cbb3552f2fb16d6ef76debcfa62453ed4f271101))
+* normalize humanizeTimeDiff keys ([9f7daf4](https://github.com/ialopezg/CommonJS/commits/9f7daf468ee5d8a989d4d84ef9d9dde8fc420a27))
+
+
+### Bug Fixes
+
+* clean code ([5e50c90](https://github.com/ialopezg/CommonJS/commits/5e50c90b96b50b87a0281bb694596bff509df63c))
+
+
+### Documentation
+
+* update documentation ([bac5548](https://github.com/ialopezg/CommonJS/commits/bac5548d01ddc455b95d2e85cf4c582a190736f9))
+
 ### [1.3.3](https://github.com/ialopezg/CommonJS/compare/v1.3.2...v1.3.3) (2025-03-02)
 
 
