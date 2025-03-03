@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.5](https://github.com/ialopezg/CommonJS/compare/v1.3.4...v1.3.5) (2025-03-03)
+
+
+### Bug Fixes
+
+* wrong behavior isLeapYear not recognized as a function ([fff232e](https://github.com/ialopezg/CommonJS/commits/fff232ed082570b49e078baa3983fccc6c500641))
+
 ### [1.3.4](https://github.com/ialopezg/CommonJS/compare/v1.3.3...v1.3.4) (2025-03-03)
 
 
