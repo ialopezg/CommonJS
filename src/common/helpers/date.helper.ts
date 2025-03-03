@@ -6,7 +6,8 @@ import {
   isDST,
   isLeapYear,
   relativeTime,
-  timeDiff, TimeUnit,
+  timeDiff,
+  TimeUnit,
 } from './date';
 
 declare global {
@@ -140,7 +141,11 @@ declare global {
      * const futureDate = Date.add('days', 5); // Adds 5 days to the current date
      * const newDate = Date.add('months', 2); // Adds 2 months to the current date
      */
-    add: (date: Date | string | number, timeUnit: TimeUnit, increment: number) => Date;
+    add: (
+      date: Date | string | number,
+      timeUnit: TimeUnit,
+      increment: number,
+    ) => Date;
 
     /**
      * Formats a given date (or timestamp) according to the specified format string.
@@ -224,7 +229,11 @@ declare global {
      * const pastDate = Date.subtract('days', 3); // Subtracts 3 days from the current date
      * const newDate = Date.subtract('weeks', 1); // Subtracts 1 week from the current date
      */
-    subtract: (date: Date | string | number, timeUnit: TimeUnit, increment: number) => Date;
+    subtract: (
+      date: Date | string | number,
+      timeUnit: TimeUnit,
+      increment: number,
+    ) => Date;
 
     /**
      * Calculates the time difference in milliseconds between two dates or timestamps.
@@ -261,7 +270,11 @@ function subtract(this: Date, timeUnit: TimeUnit, increment: number): Date {
 }
 
 Object.defineProperty(Date, 'add', {
-  value: (date: Date | string | number, timeUnit: TimeUnit, increment: number): Date => {
+  value: (
+    date: Date | string | number,
+    timeUnit: TimeUnit,
+    increment: number,
+  ): Date => {
     return adjustDate(date, timeUnit, increment);
   },
   writable: true,
@@ -278,13 +291,13 @@ Date.humanizeTimeDiff = function (from?: Date | number): string {
   return humanizeTimeDiff(Date.now() - target.getTime());
 };
 
-Date.isDST = function(date: Date | string | number) {
+Date.isDST = function (date: Date | string | number) {
   return isDST(date);
-}
+};
 
-Date.isLeapYear = function(input: Date | number){
+Date.isLeapYear = function (input: Date | number) {
   return isLeapYear(input);
-}
+};
 
 Date.relativeTime = function (from?: Date | number): string {
   const target = from instanceof Date ? from : new Date(from ?? Date.now());
@@ -292,7 +305,11 @@ Date.relativeTime = function (from?: Date | number): string {
 };
 
 Object.defineProperty(Date, 'subtract', {
-  value: (date: Date | string | number, timeUnit: TimeUnit, increment: number): Date => {
+  value: (
+    date: Date | string | number,
+    timeUnit: TimeUnit,
+    increment: number,
+  ): Date => {
     return adjustDate(date, timeUnit, -increment); // Subtract by using negative increment
   },
   writable: true,
@@ -309,25 +326,16 @@ Object.defineProperty(Date.prototype, 'add', {
   enumerable: false,
 });
 
-Object.defineProperty(Date.prototype, 'isDST', {
-  value: function (): boolean {
-    return isDST(this);
-  },
-  writable: true,
-  configurable: true,
-  enumerable: false,
-});
+Date.prototype.isDST = function () {
+  return isDST.call(Date, this);
+};
 
-Object.defineProperty(Date.prototype, 'isLeapYear', {
-  value: function (this: Date): boolean {
-    return isLeapYear(this);
-  },
-  writable: false,
-  configurable: false,
-  enumerable: false,
-});
 Date.prototype.humanize = function (this: Date, format: string): string {
   return humanize.call(Date, this, format);
+};
+
+Date.prototype.isLeapYear = function (): boolean {
+  return isLeapYear.call(Date, this);
 };
 
 // Assign the shared functions to Date.prototype (instance methods)
