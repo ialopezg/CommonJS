@@ -1,3 +1,5 @@
+import { humanizeTimeDiff } from '../../core/date';
+
 /**
  * Computes a human-readable formatted date string from a Date instance.
  * This function is shared by both the Date constructor and Date.prototype.
@@ -164,63 +166,6 @@ const computeTimeDiff = (
 };
 
 /**
- * Converts a time difference (in milliseconds) into a human-readable string.
- *
- * This function takes the absolute difference between two times and converts it into
- * a friendly string representation (for example, "5 minutes" or "about an hour").
- * It does not add any "ago" or "in" wording.
- *
- * @param milliseconds - The time difference in milliseconds. Can be positive or negative.
- * @returns A human-friendly string representing the time difference.
- *
- * @example
- * // For a 5-minute difference (300,000 ms):
- * console.log(humanizeTimeDiff(5 * 60 * 1000)); // "5 minutes"
- *
- * @example
- * // For an 1-minute difference (60,000 ms):
- * console.log(humanizeTimeDiff(60 * 1000)); // "about a minute"
- */
-export const humanizeTimeDiff = function (milliseconds: number): string {
-  const absDiff = Math.abs(milliseconds);
-  const seconds = absDiff / 1000;
-  const minutes = seconds / 60;
-  const hours = minutes / 60;
-  const days = hours / 24;
-  const years = days / 365;
-
-  const options = {
-    s: 'just now',
-    ss: 'less than a minute',
-    m: 'about a minute',
-    mm: '%d minutes',
-    h: 'about an hour',
-    hh: 'about %d hours',
-    d: 'a day',
-    dd: '%d days',
-    M: 'about a month',
-    MM: '%d months',
-    y: 'about a year',
-    yy: '%d years',
-  };
-
-  if (seconds < 10) return options.s;
-  if (seconds < 45) return options.ss;
-  if (seconds < 90) return options.m;
-  if (minutes < 45)
-    return options.mm.replace('%d', String(Math.floor(minutes)));
-  if (minutes < 90) return options.h;
-  if (hours < 24) return options.hh.replace('%d', String(Math.floor(hours)));
-  if (hours < 48) return options.d;
-  if (days < 30) return options.dd.replace('%d', String(Math.floor(days)));
-  if (days < 60) return options.M;
-  if (days < 350)
-    return options.MM.replace('%d', String(Math.floor(days / 30)));
-  if (years < 2) return options.y;
-  return options.yy.replace('%d', String(Math.floor(years)));
-};
-
-/**
  * Computes the time difference in milliseconds between two dates or timestamps.
  */
 export const timeDiff = computeTimeDiff;
@@ -247,7 +192,7 @@ export const timeDiff = computeTimeDiff;
  */
 function computeRelativeTime(targetDate: Date): string {
   const diff = Date.now() - targetDate.getTime();
-  const base = humanizeTimeDiff(diff);
+  const base = humanizeTimeDiff(targetDate);
   return diff >= 0 ? `${base} ago` : `in ${base}`;
 }
 
