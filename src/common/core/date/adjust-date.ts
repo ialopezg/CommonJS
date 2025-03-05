@@ -36,7 +36,7 @@ function parseDate(input: Date | string | number): Date {
  *
  * @param {Date | string | number} date - The base date to adjust.
  * @param {TimeUnit} [timeUnit='days'] - The unit of time to adjust (e.g., 'days', 'months').
- * @param {number} increment - The amount to adjust the date (positive for add, negative for subtract).
+ * @param {number} increment - The amount to adjust the date (positive for add, negative for subtracting).
  *
  * @returns {Date} - The adjusted date.
  */

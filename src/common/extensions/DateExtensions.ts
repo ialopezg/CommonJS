@@ -1,7 +1,15 @@
 // src/extensions/DateExtensions.ts
 
 import { humanizeTimeDiff, timeElapsed } from '../core/date';
-import { TimeUnit } from '../helpers/date';
+import {
+  adjustDate,
+  humanize,
+  isDST,
+  isLeapYear,
+  relativeTime,
+  timeDiff,
+  TimeUnit,
+} from '../helpers/date';
 
 declare global {
   interface Date {
@@ -264,18 +272,77 @@ declare global {
      * @example
      * console.log(Date.timeElapsed(new Date(Date.now() - 3 * 365 * 24 * 60 * 60 * 1000))); // "3 years"
      */
-    timeElapsed(from: Date | string | number, to?: Date | string | number, maxLevels?: number): string;
+    timeElapsed(
+      from: Date | string | number,
+      to?: Date | string | number,
+      maxLevels?: number,
+    ): string;
   }
 }
+
+Date.add = function (date: Date, timeUnit: TimeUnit, increment: number) {
+  return adjustDate(date, timeUnit, increment);
+};
+
+Date.humanize = function (date: Date | number, format: string): string {
+  return humanize.call(Date, date, format);
+};
 
 Date.humanizeTimeDiff = function (from?: Date | number): string {
   return humanizeTimeDiff(from);
 };
 
+Date.isDST = function (date: Date | string | number) {
+  return isDST(date);
+};
+
+Date.isLeapYear = function (input: Date | number) {
+  return isLeapYear(input);
+};
+
+Date.relativeTime = function (from?: Date | number): string {
+  const target = from instanceof Date ? from : new Date(from ?? Date.now());
+  return relativeTime(target);
+};
+
+Date.subtract = function (date: Date, timeUnit: TimeUnit, increment: number) {
+  return adjustDate(date, timeUnit, -increment);
+};
+
+Date.timeDiff = timeDiff;
+
 Date.timeElapsed = timeElapsed;
+
+Date.prototype.add = function (timeUnit: TimeUnit, increment: number) {
+  return adjustDate(this, timeUnit, increment);
+};
+
+Date.prototype.humanize = function (this: Date, format: string): string {
+  return humanize.call(Date, this, format);
+};
 
 Date.prototype.humanizeTimeDiff = function (): string {
   return humanizeTimeDiff(Date.now(), this);
+};
+
+Date.prototype.isDST = function () {
+  return isDST.call(Date, this);
+};
+
+Date.prototype.isLeapYear = function (): boolean {
+  return isLeapYear.call(Date, this);
+};
+
+Date.prototype.relativeTime = function (): string {
+  return relativeTime(this);
+};
+
+Date.prototype.subtract = function (timeUnit: TimeUnit, increment: number) {
+  return adjustDate(this, timeUnit, -increment);
+};
+
+Date.prototype.timeDiff = function (this: Date, to?: Date | number): number {
+  return timeDiff(this, to);
 };
 
 Date.prototype.timeElapsed = function () {

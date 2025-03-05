@@ -30,12 +30,12 @@ type TimeUnitResult = {
 export function getTimeUnits(
   from: Date | string | number,
   to?: Date | string | number,
-) {
+): { parts: TimeUnitResult[]; approx: boolean } {
   const fromDate = from instanceof Date ? from : new Date(from);
   const toDate = to ? (to instanceof Date ? to : new Date(to)) : new Date();
   const diffMs = Math.abs(toDate.getTime() - fromDate.getTime());
 
-  const TIME_UNITS = [
+  const TIME_UNITS: TimeUnit[] = [
     {
       token: 'y',
       singular: 'year',
@@ -57,14 +57,14 @@ export function getTimeUnits(
   let remainingMs = diffMs;
   const parts = [];
 
-  // Handle case where the difference is less than 60 seconds
+  // Handle a case where the difference is less than 60 seconds
   if (remainingMs < 60 * 1000) {
     parts.push({ count: remainingMs / 1000, unit: 'seconds' });
     return { parts, approx: false };
   }
 
   // Calculate time units based on the remaining milliseconds
-  for (const { token, singular, plural, value } of TIME_UNITS) {
+  for (const { singular, plural, value } of TIME_UNITS) {
     const count = Math.floor(remainingMs / value);
 
     if (count > 0) {

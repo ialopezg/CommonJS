@@ -3,9 +3,7 @@ import { expect } from 'chai';
 import * as sinon from 'sinon';
 
 import '../../common/extensions/DateExtensions';
-import '../../common/helpers/date.helper';
 import '../../common/helpers/number.helper';
-
 import {
   adjustDate,
   humanize,
@@ -14,7 +12,6 @@ import {
   relativeTime,
   timeDiff,
 } from '../../common/helpers/date';
-import { timeElapsed } from '../../common/core/date';
 
 describe('Date', () => {
   let clock: sinon.SinonFakeTimers;
@@ -429,6 +426,9 @@ describe('Date', () => {
     describe('for seconds', () => {
       it('should return "0 seconds" for the same timestamp', () => {
         expect(Date.timeElapsed(Date.now())).to.equal('0 seconds');
+        expect(Date.timeElapsed(Date.now(), Date.now())).to.equal('0 seconds');
+        expect(Date.timeElapsed(Date.now(), new Date().toISOString())).to.equal('0 seconds');
+        expect(Date.timeElapsed(Date.now(), new Date().getTime())).to.equal('0 seconds');
       });
 
       it('should return "n seconds" for the same timestamp', () => {

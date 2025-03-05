@@ -1,4 +1,3 @@
-export * from './date.helper';
 export * from './get-value-for.helper';
 export * from './number.helper';
 export * from './is-array.helper';
