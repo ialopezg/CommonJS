@@ -6,7 +6,6 @@
  */
 
 // Core logic
-export * from './common/core/date';
 export * from './common';
 
-// Utility functions
+// Extensions functions
