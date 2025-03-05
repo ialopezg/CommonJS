@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.7](https://github.com/ialopezg/CommonJS/compare/v1.3.6...v1.3.7) (2025-03-05)
+
+
+### Bug Fixes
+
+* refactor and clean code ([a15586e](https://github.com/ialopezg/CommonJS/commits/a15586e980d734f6268da8c7d4360235bc42bd61))
+* refactor file structure ([a8c3be7](https://github.com/ialopezg/CommonJS/commits/a8c3be7787cf18b605be75a988a53d1ff54bdaa7))
+
 ### [1.3.6](https://github.com/ialopezg/CommonJS/compare/v1.3.5...v1.3.6) (2025-03-05)
 
 
