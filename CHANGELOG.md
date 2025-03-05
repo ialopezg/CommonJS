@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.6](https://github.com/ialopezg/CommonJS/compare/v1.3.5...v1.3.6) (2025-03-05)
+
+
+### Features
+
+* add timeElapsed function ([4118ce4](https://github.com/ialopezg/CommonJS/commits/4118ce4f0017ec61455e84067a93479f01c1c198))
+
+
+### Bug Fixes
+
+* clean code ([a9bb992](https://github.com/ialopezg/CommonJS/commits/a9bb992697e657904b3d4f6ff9856ecd4f495c8d))
+
+
+### Documentation
+
+* fix main concepts ([88d5a20](https://github.com/ialopezg/CommonJS/commits/88d5a20f12641a34abe0066223ed2efdea00f424))
+* update documentation ([dd7b6a0](https://github.com/ialopezg/CommonJS/commits/dd7b6a0d0711210eb55d5752f31421c6fa385465))
+
 ### [1.3.5](https://github.com/ialopezg/CommonJS/compare/v1.3.4...v1.3.5) (2025-03-03)
 
 
