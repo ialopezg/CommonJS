@@ -1,5 +1,4 @@
-```
-# Date Utilities - Add, Subtract, and Adjust Date
+# AdjustDate Utilities
 
 This documentation provides usage instructions for extending the `Date` object with `add` and `subtract` methods, and includes a standalone `adjustDate` function for adjusting dates by specific time units.
 
@@ -7,7 +6,7 @@ This documentation provides usage instructions for extending the `Date` object w
 
 ### `adjustDate(date: Date | string | number, timeUnit: TimeUnit = 'days', increment: number): Date`
 
-Adjusts the provided date by a given time unit and increment.
+Adjust the provided date by a given time unit and increment.
 
 #### Parameters:
 - `date` (Date | string | number): The base date to adjust. It can be a `Date` object, a date string, or a timestamp (number).
