@@ -9,3 +9,4 @@
 export * from './common';
 
 // Extensions functions
+export * from './common/extensions/DateExtensions';
